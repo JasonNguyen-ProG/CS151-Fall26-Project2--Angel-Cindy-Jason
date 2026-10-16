@@ -19,20 +19,46 @@ public class Food extends MenuItem {
         this.specialNotes = specialNotes;
     }
 
+    /**
+     * Add sauce to Food item
+     * @param sauce
+     */
     public void addSauce(Ingredient sauce) {
         this.sauces.add(sauce);
     }
 
+    /**
+     * Remove sauce from Food item
+     * @param sauce
+     */
     public void removeSauce(Ingredient sauce) {
         this.sauces.remove(sauce);
     }
 
-    @Override 
+    /**
+     * Calculate price of a MenuItem with all
+     * of the customizations if applicable
+     * @return total - the total of all items
+     */
+    @Override
     public double calcPrice() {
-        return 0.0;
+        double total = 0;
+
+        double basePrice = this.getPrice();
+        double customizationPrice = 
+
+        return total;
     }
 
-    @Override 
+    /**
+     * @return category of MenuItem
+     */
+    @Override
+    public String getCategory() {
+        return "Food";
+    }
+
+    @Override
     public boolean canServe(Inventory inventory) {
         return true;
     }
