@@ -22,3 +22,6 @@
 https://lucid.app/lucidchart/db7a01a4-829b-4293-b2d5-0d02c52df5b7/edit?viewport_loc=-1839%2C-269%2C3596%2C2157%2C0_0&invitationId=inv_b7e4161d-7bce-43a2-ae40-1ad8e3ccccf8
 
 
+## Formatting: Linter (Nando Vieira)
+- Manual Format: ```Shift + Alt + F```
+
