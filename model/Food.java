@@ -2,50 +2,70 @@ package model;
 
 import java.util.ArrayList;
 
+import exceptions.InvalidIngredientException;
 import management.Inventory;
 
 public class Food extends MenuItem {
     private String size;
-    private String temperature;
+    private String spiceLvl;
     private ArrayList<Ingredient> defaultIngredients;
     private ArrayList<Ingredient> customizations;
     private String specialRequest;
 
-    public Food(int itemID, String name, double price, boolean inStock, String size, String temp,
-            ArrayList<Ingredient> customizations, String specialRequest) {
+    public Food(int itemID, String name, double price, boolean inStock, String size, String spice,
+            ArrayList<Ingredient> defaultIngredients, ArrayList<Ingredient> customizations, String specialRequest) {
         super(itemID, name, price, inStock);
         this.size = size;
-        this.temperature = temp;
+        this.spiceLvl = spice;
+        this.defaultIngredients = defaultIngredients;
         this.customizations = customizations;
         this.specialRequest = specialRequest;
     }
 
     /**
-     * Add Ingredient and adjust price of Food item
+     * Add Ingredient
+     * 
      * @param ingredient that customer wants extra of
      */
     public void addExtraIngredient(Ingredient ingredient) {
-
+        if (ingredient == null) {
+            throw new InvalidIngredientException("Invalid Ingredient");
+        }
+        
+        this.customizations.add(ingredient);
     }
 
     /**
-     * Remove Ingredient and adjust price of Food item
+     * Remove Ingredient
+     * 
      * @param ingredient that customer wants to remove from Food item
      */
     public void removeIngredient(Ingredient ingredient) {
-        this.defaultIngredients.remove(ingredient);
+        if (!this.defaultIngredients.contains(ingredient)) {
+            throw new InvalidIngredientException("Ingredient is not part of this Food item");
+        }
 
-        double adjustedPrice = this.getPrice() - ingredient.priceAsCustomization;
-        this.setPrice(adjustedPrice);
+        this.defaultIngredients.remove(ingredient);
     }
 
     /**
-     * Substitute ingredient and adjust price of Food item
+     * Substitute ingredient
+     * 
      * @param original the default Ingredient
      * @param subs     what the customer wants
      */
     public void substituteIngredient(Ingredient original, Ingredient subs) {
+        if (original == null || subs == null) {
+            throw new InvalidIngredientException("Invalid Ingredients");
+        }
 
+        int originalIdx = this.defaultIngredients.indexOf(original);
+
+        if (originalIdx == -1) {
+            throw new InvalidIngredientException("Original Ingredient is not a part of this Food item");
+        }
+
+        this.defaultIngredients.set(originalIdx, subs);
     }
 
     /**
@@ -84,5 +104,30 @@ public class Food extends MenuItem {
     @Override
     public boolean canServe(Inventory inventory) {
         return true;
+    }
+
+    /*-----Getters and Setters-----*/
+    public String getSize() {
+        return this.size;
+    }
+
+    public void setSize(String newSize) {
+        this.size = newSize;
+    }
+
+    public String getSpiceLvl() {
+        return this.spiceLvl;
+    }
+
+    public void setSpiceLvl(String newSpiceLvl) {
+        this.spiceLvl = newSpiceLvl;
+    }
+
+    public String getSpecialRequest() {
+        return this.specialRequest;
+    }
+
+    public void setSpecialRequest(String newRequest) {
+        this.specialRequest = newRequest;
     }
 }
