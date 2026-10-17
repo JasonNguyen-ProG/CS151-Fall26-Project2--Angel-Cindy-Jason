@@ -20,7 +20,7 @@ public abstract class MenuItem {
 
     public abstract boolean canServe(Inventory inventory);
 
-    public abstract void customize(Ingredient ingredient);
+    // public abstract void customize(Ingredient ingredient);
 
     /*-----Getters and Setters-----*/
     public int getItemID() {

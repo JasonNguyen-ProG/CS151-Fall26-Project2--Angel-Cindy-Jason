@@ -8,26 +8,41 @@ public class Food extends MenuItem {
     private String size;
     private String temperature;
     private ArrayList<Ingredient> customizations;
-    private ArrayList<String> specialRequests;
+    private String specialRequest;
 
     public Food(int itemID, String name, double price, boolean inStock, String size, String temp,
-            ArrayList<Ingredient> customizations, ArrayList<String> specialRequests) {
+            ArrayList<Ingredient> customizations, String specialRequest) {
         super(itemID, name, price, inStock);
         this.size = size;
         this.temperature = temp;
         this.customizations = customizations;
-        this.specialRequests = specialRequests;
+        this.specialRequest = specialRequest;
     }
 
     /**
-     * Adding cutomer's special requests to their food
-     * @param request
+     * 
+     * @param ingredient that customer wants extra of
      */
-    public void addSpecialRequests(String request) {
-        this.specialRequests.add(request);
+    public void addExtraIngredient(Ingredient ingredient) {
+
     }
 
+    /**
+     * 
+     * @param ingredient that customer wants to remove from Food item
+     */
+    public void removeIngredient(Ingredient ingredient) {
 
+    }
+
+    /**
+     * 
+     * @param original the default Ingredient
+     * @param subs what the customer wants
+     */
+    public void substituteIngredient(Ingredient original, Ingredient subs) {
+
+    }
 
     /**
      * Calculate price of a MenuItem with all
