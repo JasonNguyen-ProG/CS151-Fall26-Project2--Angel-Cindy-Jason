@@ -21,7 +21,7 @@ public class Food extends MenuItem {
     }
 
     /**
-     * 
+     * Add Ingredient and adjust price of Food item
      * @param ingredient that customer wants extra of
      */
     public void addExtraIngredient(Ingredient ingredient) {
@@ -29,15 +29,18 @@ public class Food extends MenuItem {
     }
 
     /**
-     * 
+     * Remove Ingredient and adjust price of Food item
      * @param ingredient that customer wants to remove from Food item
      */
     public void removeIngredient(Ingredient ingredient) {
+        this.defaultIngredients.remove(ingredient);
 
+        double adjustedPrice = this.getPrice() - ingredient.priceAsCustomization;
+        this.setPrice(adjustedPrice);
     }
 
     /**
-     * 
+     * Substitute ingredient and adjust price of Food item
      * @param original the default Ingredient
      * @param subs     what the customer wants
      */
