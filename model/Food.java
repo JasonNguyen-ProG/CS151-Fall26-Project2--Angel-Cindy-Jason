@@ -7,45 +7,41 @@ import management.Inventory;
 public class Food extends MenuItem {
     private String size;
     private String temperature;
-    private ArrayList<Ingredient> sauces;
-    private String specialNotes;
+    private ArrayList<Ingredient> customizations;
+    private ArrayList<String> specialRequests;
 
     public Food(int itemID, String name, double price, boolean inStock, String size, String temp,
-            ArrayList<Ingredient> sauces, String specialNotes) {
+            ArrayList<Ingredient> customizations, ArrayList<String> specialRequests) {
         super(itemID, name, price, inStock);
         this.size = size;
         this.temperature = temp;
-        this.sauces = sauces;
-        this.specialNotes = specialNotes;
+        this.customizations = customizations;
+        this.specialRequests = specialRequests;
     }
 
     /**
-     * Add sauce to Food item
-     * @param sauce
+     * Adding cutomer's special requests to their food
+     * @param request
      */
-    public void addSauce(Ingredient sauce) {
-        this.sauces.add(sauce);
+    public void addSpecialRequests(String request) {
+        this.specialRequests.add(request);
     }
 
-    /**
-     * Remove sauce from Food item
-     * @param sauce
-     */
-    public void removeSauce(Ingredient sauce) {
-        this.sauces.remove(sauce);
-    }
+
 
     /**
      * Calculate price of a MenuItem with all
      * of the customizations if applicable
-     * @return total - the total of all items
+     * @return total - the total of this menu item
      */
     @Override
     public double calcPrice() {
         double total = 0;
 
         double basePrice = this.getPrice();
-        double customizationPrice = 
+        double customizationPrice = ;
+
+        total = basePrice + customizationPrice;
 
         return total;
     }
