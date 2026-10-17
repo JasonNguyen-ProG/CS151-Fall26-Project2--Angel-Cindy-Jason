@@ -7,6 +7,7 @@ import management.Inventory;
 public class Food extends MenuItem {
     private String size;
     private String temperature;
+    private ArrayList<Ingredient> defaultIngredients;
     private ArrayList<Ingredient> customizations;
     private String specialRequest;
 
@@ -38,7 +39,7 @@ public class Food extends MenuItem {
     /**
      * 
      * @param original the default Ingredient
-     * @param subs what the customer wants
+     * @param subs     what the customer wants
      */
     public void substituteIngredient(Ingredient original, Ingredient subs) {
 
@@ -47,18 +48,21 @@ public class Food extends MenuItem {
     /**
      * Calculate price of a MenuItem with all
      * of the customizations if applicable
+     * 
      * @return total - the total of this menu item
      */
     @Override
     public double calcPrice() {
-        double total = 0;
 
         double basePrice = this.getPrice();
-        double customizationPrice = ;
+        // TODO: Loop through customizations
+        // get priceAsCustomization and add it up
+        double customizationPrice = 0;
+        for (Ingredient customization : customizations) {
+            customizationPrice += customization.priceAsCustomization;
+        }
 
-        total = basePrice + customizationPrice;
-
-        return total;
+        return basePrice + customizationPrice;
     }
 
     /**
@@ -69,6 +73,11 @@ public class Food extends MenuItem {
         return "Food";
     }
 
+    /**
+     * 
+     * @param inventory checking if the actual Food item is still available to serve
+     * @return boolean
+     */
     @Override
     public boolean canServe(Inventory inventory) {
         return true;
