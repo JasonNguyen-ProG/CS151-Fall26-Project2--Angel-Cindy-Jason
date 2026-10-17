@@ -1,5 +1,9 @@
 package interfaces;
 
-public class Discountable {
-    
+public interface Discountable {
+    boolean isDiscountable();
+
+    double calcDiscount();
+
+    double calcPriceAfterDiscount();
 }
