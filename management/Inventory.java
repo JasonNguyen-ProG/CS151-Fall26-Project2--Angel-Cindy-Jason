@@ -1,6 +1,8 @@
 package management;
+import java.util.ArrayList;
 import java.util.List;
 import model.Ingredient;
+import model.MenuItem;
 
 
 public class Inventory {
@@ -51,5 +53,36 @@ public class Inventory {
         }
     }
 
-    
+    // Method for restocking an ingredient in the inventory.
+    void restock(String name, int qty) {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getName().equals(name)) {
+                ingredient.restock(qty);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Ingredient not found in inventory.");
+    }
+
+    // Method to check if the inventory has all ingredients for a given menu item.
+    boolean hasIngredients(MenuItem item) {
+        for (Ingredient ingredient : item.getIngredients()) {
+            if (!ingredients.contains(ingredient)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Method for consuming ingredients from the inventory based on a menu item.
+    void consumeIngredients(MenuItem item) {
+        for (Ingredient ingredient : item.getIngredients()) {
+            if (ingredients.contains(ingredient)) {
+                ingredients.remove(ingredient);
+            } else {
+                throw new IllegalArgumentException("Ingredient not found in inventory.");
+            }
+        }
+    }
+
 }
