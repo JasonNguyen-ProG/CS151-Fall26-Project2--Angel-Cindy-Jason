@@ -1,8 +1,7 @@
 package model;
 
 import exceptions.InvalidNameException;
-
-import exceptions.InvalidPriceException;
+import exceptions.InvalidNumericValueException;
 import interfaces.Discountable;
 import management.Inventory;
 
@@ -56,7 +55,7 @@ public abstract class MenuItem implements Discountable{
 
     public void setItemID(int newID) {
         if (newID <= 0) {
-            throw new IllegalArgumentException("Item ID must be positive");
+            throw new InvalidNumericValueException("Item ID must be positive");
         }
         this.itemID = newID;
     }
@@ -78,7 +77,7 @@ public abstract class MenuItem implements Discountable{
 
     public void setPrice(double newPrice) {
         if (newPrice < 0) {
-            throw new InvalidPriceException("Price cannot be negative");
+            throw new InvalidNumericValueException("Price cannot be negative");
         }
         this.price = newPrice;
     }
@@ -101,7 +100,7 @@ public abstract class MenuItem implements Discountable{
 
     public void setDiscountRate(double rate) {
         if (rate < 0 || rate > 1) {
-            throw new IllegalArgumentException("Discount rate must be between 0 and 1");
+            throw new InvalidNumericValueException("Discount rate must be between 0 and 1");
         }
 
         this.discountRate = rate;
