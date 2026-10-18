@@ -19,4 +19,55 @@ public class Ingredient {
         this.minStock = minStock;
         this.priceAsCustomization = priceAsCustomization;
     }
+
+    // Getter and setter methods for each field.
+    public int getIngredientID() {
+        return ingredientID;
+    }
+
+    public void setIngredientID(int ingredientID) {
+        this.ingredientID = ingredientID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public int getUnit() {
+        return unit;
+    }
+
+    public void setUnit(int unit) {
+        this.unit = unit;
+    }
+
+    public int getMinStock() {
+        return minStock;
+    }
+
+    public void setMinStock(int minStock) {
+        this.minStock = minStock;
+    }
+
+    public double getPriceAsCustomization() {
+        return priceAsCustomization;
+    }
+
+    public void setPriceAsCustomization(double priceAsCustomization) {
+        this.priceAsCustomization = priceAsCustomization;
+    }
+
+    
 }
