@@ -69,5 +69,30 @@ public class Ingredient {
         this.priceAsCustomization = priceAsCustomization;
     }
 
+    // Methods for managing stock levels: consume, restock, check if enough stock, and check if low stock.
+
+    public void consume(int amount) {
+        if (amount <= qty) {
+            qty -= amount;
+        } else {
+            throw new IllegalArgumentException("Not enough stock to consume the requested amount.");
+        }
+    }
+
+    public void restock(int amount) {
+        if (amount > 0) {
+            qty += amount;
+        } else {
+            throw new IllegalArgumentException("Restock amount must be positive.");
+        }
+    }
+
+    public boolean hasEnoughStock(int amount) {
+        return qty >= amount;
+    }
+
+    public boolean isLow() {
+        return qty <= minStock;
+    }
     
 }
