@@ -84,5 +84,26 @@ public class Inventory {
             }
         }
     }
+    // Methods for finding low stock ingredients.
+    ArrayList<Ingredient> findLowInStock() {
+        ArrayList<Ingredient> lowInStock = new ArrayList<>();
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.isLow()) {
+                lowInStock.add(ingredient);
+            }
+        }
+        return lowInStock;
+    }
+
+    // Method for finding ingredients that are out of stock.
+    ArrayList<Ingredient> findOutOfStock() {
+        ArrayList<Ingredient> outOfStock = new ArrayList<>();
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.isOutOfStock()) {
+                outOfStock.add(ingredient);
+            }
+        }
+        return outOfStock;
+    }
 
 }
