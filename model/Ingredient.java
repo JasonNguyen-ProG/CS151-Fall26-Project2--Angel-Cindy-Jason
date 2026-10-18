@@ -95,4 +95,7 @@ public class Ingredient {
         return qty <= minStock;
     }
     
+    public boolean isOutOfStock() {
+        return qty == 0;
+    }
 }
