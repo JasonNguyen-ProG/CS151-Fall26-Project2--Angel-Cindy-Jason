@@ -9,15 +9,17 @@ public class Food extends MenuItem {
     private String size;
     private String spiceLvl;
     private ArrayList<Ingredient> defaultIngredients;
+    private ArrayList<Ingredient> currentIngredients;
     private ArrayList<Ingredient> customizations;
     private String specialRequest;
 
-    public Food(int itemID, String name, double price, boolean inStock, String size, String spice,
+    public Food(int itemID, String name, double price, boolean inStock, boolean discountable, double rate, String size, String spice,
             ArrayList<Ingredient> defaultIngredients, ArrayList<Ingredient> customizations, String specialRequest) {
-        super(itemID, name, price, inStock);
+        super(itemID, name, price, inStock, discountable, rate);
         this.size = size;
         this.spiceLvl = spice;
         this.defaultIngredients = defaultIngredients;
+        this.currentIngredients = new ArrayList<>(defaultIngredients);
         this.customizations = customizations;
         this.specialRequest = specialRequest;
     }
@@ -41,11 +43,15 @@ public class Food extends MenuItem {
      * @param ingredient that customer wants to remove from Food item
      */
     public void removeIngredient(Ingredient ingredient) {
-        if (!this.defaultIngredients.contains(ingredient)) {
+        if (ingredient == null) {
+            throw new InvalidIngredientException("Ingredient cannot be null");
+        }
+
+        if (!this.currentIngredients.contains(ingredient)) {
             throw new InvalidIngredientException("Ingredient is not part of this Food item");
         }
 
-        this.defaultIngredients.remove(ingredient);
+        this.currentIngredients.remove(ingredient);
     }
 
     /**
@@ -59,30 +65,29 @@ public class Food extends MenuItem {
             throw new InvalidIngredientException("Invalid Ingredients");
         }
 
-        int originalIdx = this.defaultIngredients.indexOf(original);
+        int originalIdx = this.currentIngredients.indexOf(original);
 
         if (originalIdx == -1) {
             throw new InvalidIngredientException("Original Ingredient is not a part of this Food item");
         }
 
-        this.defaultIngredients.set(originalIdx, subs);
+        this.currentIngredients.set(originalIdx, subs);
     }
 
     /**
      * Calculate price of a MenuItem with all
      * of the customizations if applicable
      * 
-     * @return total - the total of this menu item
+     * @return the total of this menu item
      */
     @Override
     public double calcPrice() {
-
         double basePrice = this.getPrice();
-        // TODO: Loop through customizations
+        // Loop through customizations
         // get priceAsCustomization and add it up
         double customizationPrice = 0;
         for (Ingredient customization : customizations) {
-            customizationPrice += customization.priceAsCustomization;
+            customizationPrice += customization.getPriceAsCustomization();
         }
 
         return basePrice + customizationPrice;
