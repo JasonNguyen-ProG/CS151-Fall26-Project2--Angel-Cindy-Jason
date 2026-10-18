@@ -15,5 +15,41 @@ public class Inventory {
         this.capacity = capacity;
     }
 
+    // Getter and setter methods for ingredients and capacity.
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    // METHODS
+
+    // Method for adding an ingredient to the inventory.
+    public void addIngredient(Ingredient ingredient) {
+        if (ingredients.size() < capacity) {
+            ingredients.add(ingredient);
+        } else {
+            throw new IllegalStateException("Inventory is full. Cannot add more ingredients.");
+        }
+    }
+    // Method for removing an ingredient from the inventory.
+    public void removeIngredient(Ingredient ingredient) {
+        if (ingredients.contains(ingredient)) {
+            ingredients.remove(ingredient);
+        } else {
+            throw new IllegalArgumentException("Ingredient not found in inventory.");
+        }
+    }
+
     
 }
