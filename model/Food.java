@@ -8,19 +8,17 @@ import management.Inventory;
 public class Food extends MenuItem {
     private String size;
     private String spiceLvl;
-    private ArrayList<Ingredient> defaultIngredients;
     private ArrayList<Ingredient> currentIngredients;
     private ArrayList<Ingredient> customizations;
     private String specialRequest;
 
     public Food(int itemID, String name, double price, boolean inStock, boolean discountable, double rate, String size,
             String spice,
-            ArrayList<Ingredient> defaultIngredients, ArrayList<Ingredient> customizations, String specialRequest) {
+            ArrayList<Ingredient> currentIngredients, ArrayList<Ingredient> customizations, String specialRequest) {
         super(itemID, name, price, inStock, discountable, rate);
         this.size = size;
         this.spiceLvl = spice;
-        this.defaultIngredients = defaultIngredients;
-        this.currentIngredients = new ArrayList<>(defaultIngredients);
+        this.currentIngredients = currentIngredients;
         this.customizations = customizations;
         this.specialRequest = specialRequest;
     }
