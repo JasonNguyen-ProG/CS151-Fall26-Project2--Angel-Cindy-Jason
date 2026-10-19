@@ -13,7 +13,8 @@ public class Food extends MenuItem {
     private ArrayList<Ingredient> customizations;
     private String specialRequest;
 
-    public Food(int itemID, String name, double price, boolean inStock, boolean discountable, double rate, String size, String spice,
+    public Food(int itemID, String name, double price, boolean inStock, boolean discountable, double rate, String size,
+            String spice,
             ArrayList<Ingredient> defaultIngredients, ArrayList<Ingredient> customizations, String specialRequest) {
         super(itemID, name, price, inStock, discountable, rate);
         this.size = size;
@@ -33,7 +34,7 @@ public class Food extends MenuItem {
         if (ingredient == null) {
             throw new InvalidIngredientException("Invalid Ingredient");
         }
-        
+
         this.customizations.add(ingredient);
     }
 
@@ -48,7 +49,7 @@ public class Food extends MenuItem {
         }
 
         if (!this.currentIngredients.contains(ingredient)) {
-            throw new InvalidIngredientException("Ingredient is not part of this Food item");
+            throw new InvalidIngredientException(ingredient.getName() + " is not part of this Food item");
         }
 
         this.currentIngredients.remove(ingredient);
@@ -68,7 +69,7 @@ public class Food extends MenuItem {
         int originalIdx = this.currentIngredients.indexOf(original);
 
         if (originalIdx == -1) {
-            throw new InvalidIngredientException("Original Ingredient is not a part of this Food item");
+            throw new InvalidIngredientException(original.getName() + " is not a part of this Food item");
         }
 
         this.currentIngredients.set(originalIdx, subs);
@@ -108,7 +109,11 @@ public class Food extends MenuItem {
      */
     @Override
     public boolean canServe(Inventory inventory) {
-        return true;
+        if (!getInStock() || inventory == null) {
+            return false;
+        }
+
+        return inventory.hasIngredients(currentIngredients) && inventory.hasIngredients(customizations);
     }
 
     /*-----Getters and Setters-----*/
