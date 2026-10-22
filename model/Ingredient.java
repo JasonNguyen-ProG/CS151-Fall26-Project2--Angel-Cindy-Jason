@@ -1,6 +1,8 @@
 package model;
 
 import exceptions.InvalidNumericValueException;
+import exceptions.MaximumInstanceException;
+import management.SystemConstant;
 
 public class Ingredient {
 
@@ -11,13 +13,22 @@ public class Ingredient {
     private int minStock;
     private double priceAsCustomization;
 
+    private static int instanceCount = 0;
+
     // Constructor for initializing an ingredient with all its fields.
     public Ingredient(int ingredientID, String name, int qty, int minStock, double priceAsCustomization) {
+        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+            throw new MaximumInstanceException(
+                    "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Ingredient objects");
+        }
+        
         this.ingredientID = ingredientID;
         this.name = name;
         this.qty = qty;
         this.minStock = minStock;
         this.priceAsCustomization = priceAsCustomization;
+
+        instanceCount++;
     }
 
     // Getter and setter methods for each field.

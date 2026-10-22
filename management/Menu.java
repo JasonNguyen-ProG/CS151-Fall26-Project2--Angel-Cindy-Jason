@@ -1,33 +1,45 @@
 package management;
 
 import java.util.ArrayList;
+
+import exceptions.MaximumInstanceException;
 import model.MenuItem;
 
 public class Menu {
+    
     // Menu fields
     private ArrayList<MenuItem> menuItems;
+    
+    private static int instanceCount = 0;
 
     // Menu constructor
     public Menu() {
-        menuItems = new ArrayList<>();
+        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+            throw new MaximumInstanceException(
+                    "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Menu objects");
+        }
+        
+        this.menuItems = new ArrayList<>();
+
+        instanceCount++;
     }
 
     // Menu getters
     public ArrayList<MenuItem> getMenuItems() {
-        return menuItems;
+        return this.menuItems;
     }
 
     // Menu methods
     public void addItem(MenuItem item) {
-        menuItems.add(item);
+        this.menuItems.add(item);
     }
 
     public void removeItem(MenuItem item) {
-        menuItems.remove(item);
+        this.menuItems.remove(item);
     }
 
     public MenuItem findItemByID(int itemID) {
-        for (MenuItem item : menuItems) {
+        for (MenuItem item : this.menuItems) {
             if (item.getItemID() == itemID) {
                 return item;
             }
@@ -36,7 +48,7 @@ public class Menu {
     }
 
     public MenuItem findItemByName(String name) {
-        for (MenuItem item : menuItems) {
+        for (MenuItem item : this.menuItems) {
             if (item.getName().equals(name)) {
                 return item;
             }
@@ -46,7 +58,7 @@ public class Menu {
 
     public ArrayList<MenuItem> findItemByCategory(String category) {
         ArrayList<MenuItem> matches = new ArrayList<>();
-        for (MenuItem item : menuItems) {
+        for (MenuItem item : this.menuItems) {
             if (item.getCategory().equalsIgnoreCase(category)) {
                 matches.add(item);
             }
@@ -55,7 +67,7 @@ public class Menu {
     }
 
     public void displayAvailableItems() {
-        for (MenuItem item : menuItems) {
+        for (MenuItem item : this.menuItems) {
             if (item.getInStock()) {
                 System.out.println(item.getName() + " - $" + item.calcPrice());
             }

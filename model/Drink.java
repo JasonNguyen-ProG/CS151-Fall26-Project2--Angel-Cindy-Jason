@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 import exceptions.InvalidIngredientException;
 import exceptions.InvalidNumericValueException;
+import exceptions.MaximumInstanceException;
 import management.Inventory;
+import management.SystemConstant;
 
 public class Drink extends MenuItem {
+
+    // Drink fields
     private String size;
     private double sweetnessLvl;
     private double iceLvl;
@@ -14,15 +18,25 @@ public class Drink extends MenuItem {
     private ArrayList<Ingredient> baseIngredients;
     private ArrayList<Ingredient> toppings;
 
+    private static int instanceCount = 0;
+
     public Drink(int itemID, String name, double price, boolean inStock, boolean discountable, double rate, String size,
             double sweetness, double ice, String temp, ArrayList<Ingredient> base, ArrayList<Ingredient> toppings) {
         super(itemID, name, price, inStock, discountable, rate);
+        
+        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+            throw new MaximumInstanceException(
+                    "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Drink objects");
+        }
+        
         this.size = size;
         this.sweetnessLvl = sweetness;
         this.iceLvl = ice;
         this.temperature = temp;
         this.baseIngredients = base;
         this.toppings = toppings;
+
+        instanceCount++;
     }
 
     /**

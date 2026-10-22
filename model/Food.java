@@ -3,24 +3,37 @@ package model;
 import java.util.ArrayList;
 
 import exceptions.InvalidIngredientException;
+import exceptions.MaximumInstanceException;
 import management.Inventory;
+import management.SystemConstant;
 
 public class Food extends MenuItem {
+
+    // Food fields
     private String size;
     private String spiceLvl;
     private ArrayList<Ingredient> currentIngredients;
     private ArrayList<Ingredient> customizations;
     private String specialRequest;
 
+    private static int instanceCount = 0;
+
     public Food(int itemID, String name, double price, boolean inStock, boolean discountable, double rate, String size,
             String spice,
             ArrayList<Ingredient> currentIngredients, ArrayList<Ingredient> customizations, String specialRequest) {
         super(itemID, name, price, inStock, discountable, rate);
+        
+        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+            throw new MaximumInstanceException("Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Food objects");
+        }
+        
         this.size = size;
         this.spiceLvl = spice;
         this.currentIngredients = currentIngredients;
         this.customizations = customizations;
         this.specialRequest = specialRequest;
+
+        instanceCount++;
     }
 
     /**
