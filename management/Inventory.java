@@ -3,6 +3,7 @@ package management;
 import java.util.ArrayList;
 
 import exceptions.InvalidIngredientException;
+import exceptions.MaximumInstanceException;
 import model.Ingredient;
 
 public class Inventory {
@@ -12,17 +13,25 @@ public class Inventory {
     private int capacity;
 
     private static final int DEFAULT_REQUIRED_QTY = 1;
+    private static int instanceCount = 0;
 
     // Constructor for initializing the inventory with a list of ingredients and a
     // capacity.
     public Inventory(ArrayList<Ingredient> ingredients, int capacity) {
+        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+            throw new MaximumInstanceException(
+                    "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Inventory objects");
+        }
+
         this.ingredients = ingredients;
         this.capacity = capacity;
+
+        instanceCount++;
     }
 
     // Getter and setter methods for ingredients and capacity.
     public ArrayList<Ingredient> getIngredients() {
-        return ingredients;
+        return this.ingredients;
     }
 
     public void setIngredients(ArrayList<Ingredient> ingredients) {
@@ -30,7 +39,7 @@ public class Inventory {
     }
 
     public int getCapacity() {
-        return capacity;
+        return this.capacity;
     }
 
     public void setCapacity(int capacity) {
@@ -41,8 +50,8 @@ public class Inventory {
 
     // Method for adding an ingredient to the inventory.
     public void addIngredient(Ingredient ingredient) {
-        if (ingredients.size() < capacity) {
-            ingredients.add(ingredient);
+        if (this.ingredients.size() < capacity) {
+            this.ingredients.add(ingredient);
         } else {
             throw new IllegalStateException("Inventory is full. Cannot add more ingredients.");
         }
@@ -50,8 +59,8 @@ public class Inventory {
 
     // Method for removing an ingredient from the inventory.
     public void removeIngredient(Ingredient ingredient) {
-        if (ingredients.contains(ingredient)) {
-            ingredients.remove(ingredient);
+        if (this.ingredients.contains(ingredient)) {
+            this.ingredients.remove(ingredient);
         } else {
             throw new IllegalArgumentException("Ingredient not found in inventory.");
         }
@@ -59,7 +68,7 @@ public class Inventory {
 
     // Method for restocking an ingredient in the inventory.
     public void restock(String name, int qty) {
-        for (Ingredient ingredient : ingredients) {
+        for (Ingredient ingredient : this.ingredients) {
             if (ingredient.getName().equals(name)) {
                 ingredient.restock(qty);
                 return;

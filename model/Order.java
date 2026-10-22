@@ -1,9 +1,13 @@
 package model;
 
 import java.util.ArrayList;
+
+import exceptions.MaximumInstanceException;
 import management.Inventory;
+import management.SystemConstant;
 
 public class Order {
+
     // Order fields
     private double tax;
     private double total;
@@ -12,11 +16,20 @@ public class Order {
     private String status;
     private ArrayList<MenuItem> items;
 
+    private static int instanceCount = 0;
+
     // Order constructor
     public Order(int orderID) {
+        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+            throw new MaximumInstanceException(
+                    "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Order objects");
+        }
+
         this.orderID = orderID;
         this.items = new ArrayList<>();
         this.status = "Pending";
+
+        instanceCount++;
     }
 
     // Order getters
