@@ -31,11 +31,15 @@ public class Main {
         System.out.println("7. Exit");
     }
 
-    private static void initializeCafe(String name, Menu menu, Inventory inventory) {
+    private static void initializeCafe() {
 
         ArrayList<Ingredient> ingredientsList = initializeIngredients();
+        Inventory inventory = new Inventory(ingredientsList);
+        Menu menu = new Menu();
 
-        myCafe = new Cafe(name, menu, inventory);
+        initializeDrinks(menu, ingredientsList);
+
+        myCafe = new Cafe("JAC Cafe", menu, inventory);
     }
     
     private static ArrayList<Ingredient> initializeIngredients() {
@@ -85,6 +89,21 @@ public class Main {
         return finalList;
     }
 
+    public static void initializeFoods(Menu menu, ArrayList<Ingredient> ingredientsList) {
+
+    }
+
+    public static void initializeDrinks(Menu menu, ArrayList<Ingredient> ingredientsList) {
+        ArrayList<Ingredient> milkTeaIngredients = new ArrayList<>();
+        milkTeaIngredients.add(ingredientsList.get(1));
+        milkTeaIngredients.add(ingredientsList.get(5));
+
+        Drink classicMilkTea = new Drink(101, "Classic Milk Tea", 4.50, true, false, 0.0, "Small", 1.0, 1.0, "Cold",
+                milkTeaIngredients, new ArrayList<>());
+        
+        menu.addItem(classicMilkTea);
+    }
+
     private static void createOrder() {
         System.out.println("Create Order");
     }
@@ -110,6 +129,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        
+        initializeCafe();
+
         boolean running = true;
         String userEntry;
 
