@@ -3,6 +3,8 @@ package mainUI;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+import exceptions.InvalidIngredientException;
+
 import management.Cafe;
 import management.Menu;
 import management.Inventory;
@@ -13,9 +15,9 @@ import model.Drink;
 import model.Ingredient;
 
 public class Main {
-    
+
     private static final Scanner scanner = new Scanner(System.in);
-    
+
     private static Cafe myCafe;
 
     private static void displayMainUI() {
@@ -41,7 +43,7 @@ public class Main {
 
         myCafe = new Cafe("JAC Cafe", menu, inventory);
     }
-    
+
     private static ArrayList<Ingredient> initializeIngredients() {
         ArrayList<Ingredient> finalList = new ArrayList<>();
 
@@ -89,19 +91,116 @@ public class Main {
         return finalList;
     }
 
-    public static void initializeFoods(Menu menu, ArrayList<Ingredient> ingredientsList) {
+    // private static void initializeFoods(Menu menu, ArrayList<Ingredient>
+    // ingredientsList) {
 
-    }
+    // }
 
-    public static void initializeDrinks(Menu menu, ArrayList<Ingredient> ingredientsList) {
+    private static void initializeDrinks(Menu menu, ArrayList<Ingredient> ingredientsList) {
+
+        // Drink 1
         ArrayList<Ingredient> milkTeaIngredients = new ArrayList<>();
-        milkTeaIngredients.add(ingredientsList.get(1));
-        milkTeaIngredients.add(ingredientsList.get(5));
+        milkTeaIngredients.add(findIngredientByName(ingredientsList, "Black Tea"));
+        milkTeaIngredients.add(findIngredientByName(ingredientsList, "Milk"));
 
         Drink classicMilkTea = new Drink(101, "Classic Milk Tea", 4.50, true, false, 0.0, "Small", 1.0, 1.0, "Cold",
                 milkTeaIngredients, new ArrayList<>());
-        
+
+        // Drink 2
+        ArrayList<Ingredient> thaiMilkTeaIngredients = new ArrayList<>();
+        thaiMilkTeaIngredients.add(findIngredientByName(ingredientsList, "Thai Tea"));
+        thaiMilkTeaIngredients.add(findIngredientByName(ingredientsList, "Milk"));
+
+        Drink thaiMilkTea = new Drink(102, "Thai Milk Tea", 4.75, true, false, 0.0, "Small", 1.0, 1.0, "Cold",
+                thaiMilkTeaIngredients, new ArrayList<>());
+
+        // Drink 3
+        ArrayList<Ingredient> matchaLatteIngredients = new ArrayList<>();
+        matchaLatteIngredients.add(findIngredientByName(ingredientsList, "Matcha"));
+        matchaLatteIngredients.add(findIngredientByName(ingredientsList, "Milk"));
+
+        Drink matchaLatte = new Drink(103, "Matcha Latte", 5.00, true, false, 0.0, "Small", 0.75, 1.0, "Cold",
+                matchaLatteIngredients, new ArrayList<>());
+
+        // Drink 4
+        ArrayList<Ingredient> brownSugarTeaIngredients = new ArrayList<>();
+        brownSugarTeaIngredients.add(findIngredientByName(ingredientsList, "Black Tea"));
+        brownSugarTeaIngredients.add(findIngredientByName(ingredientsList, "Milk"));
+        brownSugarTeaIngredients.add(findIngredientByName(ingredientsList, "Brown Sugar"));
+
+        Drink brownSugarMilkTea = new Drink(104, "Brown Sugar Milk Tea", 5.25, true, false, 0.0, "Small", 1.0, 1.0,
+                "Cold", brownSugarTeaIngredients, new ArrayList<>());
+
+        // Drink 5
+        ArrayList<Ingredient> strawberryGreenTeaIngredients = new ArrayList<>();
+        strawberryGreenTeaIngredients.add(findIngredientByName(ingredientsList, "Green Tea"));
+        strawberryGreenTeaIngredients.add(findIngredientByName(ingredientsList, "Strawberry Syrup"));
+
+        Drink strawberryGreenTea = new Drink(105, "Strawberry Green Tea", 4.75, true, false, 0.0, "Small", 0.75, 1.0,
+                "Cold", strawberryGreenTeaIngredients, new ArrayList<>());
+
+        // Drink 6
+        ArrayList<Ingredient> mangoGreenTeaIngredients = new ArrayList<>();
+        mangoGreenTeaIngredients.add(findIngredientByName(ingredientsList, "Green Tea"));
+        mangoGreenTeaIngredients.add(findIngredientByName(ingredientsList, "Mango Syrup"));
+
+        Drink mangoGreenTea = new Drink(106, "Mango Green Tea", 4.75, true, false, 0.0, "Small", 0.75, 1.0,
+                "Cold", mangoGreenTeaIngredients, new ArrayList<>());
+
+        // Drink 7
+        ArrayList<Ingredient> vietnameseCoffeeIngredients = new ArrayList<>();
+        vietnameseCoffeeIngredients.add(findIngredientByName(ingredientsList, "Espresso"));
+        vietnameseCoffeeIngredients.add(findIngredientByName(ingredientsList, "Condensed Milk"));
+
+        Drink vietnameseCoffee = new Drink(107, "Vietnamese Coffee", 4.50, true, false, 0.0, "Small", 1.0, 0.50,
+                "Cold", vietnameseCoffeeIngredients, new ArrayList<>());
+
+        // Drink 8
+        ArrayList<Ingredient> cafeLatteIngredients = new ArrayList<>();
+        cafeLatteIngredients.add(findIngredientByName(ingredientsList, "Espresso"));
+        cafeLatteIngredients.add(findIngredientByName(ingredientsList, "Milk"));
+
+        Drink cafeLatte = new Drink(108, "Cafe Latte", 4.25, true, false, 0.0, "Small", 0.0, 0.0,
+                "Hot", cafeLatteIngredients, new ArrayList<>());
+
+        // Drink 9
+        ArrayList<Ingredient> mochaIngredients = new ArrayList<>();
+        mochaIngredients.add(findIngredientByName(ingredientsList, "Espresso"));
+        mochaIngredients.add(findIngredientByName(ingredientsList, "Milk"));
+        mochaIngredients.add(findIngredientByName(ingredientsList, "Chocolate"));
+
+        Drink mocha = new Drink(109, "Mocha", 4.75, true, false, 0.0, "Small", 0.50, 0.0,
+                "Hot", mochaIngredients, new ArrayList<>());
+
+        // Drink 10
+        ArrayList<Ingredient> americanoIngredients = new ArrayList<>();
+        americanoIngredients.add(findIngredientByName(ingredientsList, "Espresso"));
+        americanoIngredients.add(findIngredientByName(ingredientsList, "Water"));
+
+        Drink americano = new Drink(110, "Americano", 3.25, true, false, 0.0, "Small", 0.0, 0.0,
+                "Hot", americanoIngredients, new ArrayList<>());
+
         menu.addItem(classicMilkTea);
+        menu.addItem(thaiMilkTea);
+        menu.addItem(matchaLatte);
+        menu.addItem(brownSugarMilkTea);
+        menu.addItem(strawberryGreenTea);
+        menu.addItem(mangoGreenTea);
+        menu.addItem(vietnameseCoffee);
+        menu.addItem(cafeLatte);
+        menu.addItem(mocha);
+        menu.addItem(americano);
+    }
+
+    private static Ingredient findIngredientByName(ArrayList<Ingredient> ingredientsList, String name) {
+        for (Ingredient ingredient : ingredientsList) {
+            String ingredientName = ingredient.getName().trim();
+            if (ingredientName.equalsIgnoreCase(name)) {
+                return ingredient;
+            }
+        }
+
+        throw new InvalidIngredientException(name + " was not found");
     }
 
     private static void createOrder() {
@@ -113,7 +212,15 @@ public class Main {
     }
 
     private static void viewMenu() {
-        System.out.println("View Menu");
+        System.out.println();
+        System.out.println("===============================");
+        System.out.println("           Cafe Menu");
+        System.out.println("===============================");
+
+        myCafe.getMenu().displayAvailableItems();
+
+        System.out.println("===============================");
+        System.out.println();
     }
 
     private static void manageMenu() {
@@ -129,14 +236,14 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        
+
         initializeCafe();
 
         boolean running = true;
         String userEntry;
 
         while (running) {
-            
+
             displayMainUI();
 
             System.out.print("\nSelect an option (1 - 7): ");
@@ -147,7 +254,7 @@ public class Main {
                 running = false;
                 break;
             }
-            
+
             switch (userEntry) {
                 case "1":
                     createOrder();
@@ -177,7 +284,7 @@ public class Main {
                     System.out.println("Program exited...");
                     running = false;
                     break;
-            
+
                 default:
                     System.out.println("Invalid Option. Please choose an option from 1 to 7");
             }
