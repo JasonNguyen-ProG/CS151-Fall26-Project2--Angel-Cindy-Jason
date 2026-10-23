@@ -35,7 +35,7 @@ public class Menu {
         return null;
     }
 
-    public MenuItem findItemByName(String name) {
+    public MenuItem findItem(String name) {
         for (MenuItem item : menuItems) {
             if (item.getName().equals(name)) {
                 return item;
@@ -44,21 +44,31 @@ public class Menu {
         return null;
     }
 
-    public ArrayList<MenuItem> findItemByCategory(String category) {
-        ArrayList<MenuItem> matches = new ArrayList<>();
+    public MenuItem findByCategory(String category) {
         for (MenuItem item : menuItems) {
             if (item.getCategory().equalsIgnoreCase(category)) {
-                matches.add(item);
+                return item;
             }
         }
-        return matches;
+        return null;
     }
 
-    public void displayAvailableItems() {
+    public void setAvailability(int id, boolean available) {
         for (MenuItem item : menuItems) {
-            if (item.getInStock()) {
-                System.out.println(item.getName() + " - $" + item.calcPrice());
+            if (item.getItemID() == id) {
+                item.setInStock(available);
+                return;
             }
         }
+    }
+
+    public ArrayList<MenuItem> displayAvailableItems() {
+        ArrayList<MenuItem> availableItems = new ArrayList<>();
+        for (MenuItem item : menuItems) {
+            if (item.getInStock()) {
+                availableItems.add(item);
+            }
+        }
+        return availableItems;
     }
 }
