@@ -17,7 +17,7 @@ public class Ingredient {
 
     // Constructor for initializing an ingredient with all its fields.
     public Ingredient(int ingredientID, String name, int qty, int minStock, double priceAsCustomization) {
-        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+        if (instanceCount >= SystemConstant.MAXIMUM_INSTANCES) {
             throw new MaximumInstanceException(
                     "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Ingredient objects");
         }

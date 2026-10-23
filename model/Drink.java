@@ -24,7 +24,7 @@ public class Drink extends MenuItem {
             double sweetness, double ice, String temp, ArrayList<Ingredient> base, ArrayList<Ingredient> toppings) {
         super(itemID, name, price, inStock, discountable, rate);
         
-        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+        if (instanceCount >= SystemConstant.MAXIMUM_INSTANCES) {
             throw new MaximumInstanceException(
                     "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Drink objects");
         }
@@ -75,8 +75,8 @@ public class Drink extends MenuItem {
      * @param newSweetness
      */
     public void adjustSweetness(double newSweetness) {
-        if (newSweetness != 0 || newSweetness != 0.25 || newSweetness != 0.5 || newSweetness != 0.75
-                || newSweetness != 1.0) {
+        if (newSweetness != 0 && newSweetness != 0.25 && newSweetness != 0.5 && newSweetness != 0.75
+                && newSweetness != 1.0) {
             throw new InvalidNumericValueException("Sweetness must be 0% | 25% | 50% | 75% | 100%");
         }
 

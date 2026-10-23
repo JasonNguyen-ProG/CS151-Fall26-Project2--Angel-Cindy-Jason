@@ -14,7 +14,7 @@ public class Menu {
 
     // Menu constructor
     public Menu() {
-        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+        if (instanceCount >= SystemConstant.MAXIMUM_INSTANCES) {
             throw new MaximumInstanceException(
                     "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Menu objects");
         }

@@ -17,7 +17,7 @@ public class Inventory {
     // Constructor for initializing the inventory with a list of ingredients and a
     // capacity.
     public Inventory(ArrayList<Ingredient> ingredients, int capacity) {
-        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+        if (instanceCount >= SystemConstant.MAXIMUM_INSTANCES) {
             throw new MaximumInstanceException(
                     "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Inventory objects");
         }
