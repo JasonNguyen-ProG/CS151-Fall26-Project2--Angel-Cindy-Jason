@@ -1,9 +1,8 @@
 package management;
 
-import java.util.ArrayList;
-
 import exceptions.InvalidIngredientException;
 import exceptions.MaximumInstanceException;
+import java.util.ArrayList;
 import model.Ingredient;
 
 public class Inventory {
