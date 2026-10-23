@@ -9,21 +9,19 @@ public class Inventory {
 
     // Fields for the list of ingredients and the inventory capacity.
     private ArrayList<Ingredient> ingredients;
-    private int capacity;
 
     private static final int DEFAULT_REQUIRED_QTY = 1;
     private static int instanceCount = 0;
 
     // Constructor for initializing the inventory with a list of ingredients and a
     // capacity.
-    public Inventory(ArrayList<Ingredient> ingredients, int capacity) {
-        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+    public Inventory(ArrayList<Ingredient> ingredients) {
+        if (instanceCount >= SystemConstant.MAXIMUM_INSTANCES) {
             throw new MaximumInstanceException(
                     "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Inventory objects");
         }
 
         this.ingredients = ingredients;
-        this.capacity = capacity;
 
         instanceCount++;
     }
@@ -37,19 +35,11 @@ public class Inventory {
         this.ingredients = ingredients;
     }
 
-    public int getCapacity() {
-        return this.capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     // METHODS
 
     // Method for adding an ingredient to the inventory.
     public void addIngredient(Ingredient ingredient) {
-        if (this.ingredients.size() < capacity) {
+        if (this.ingredients.size() < SystemConstant.MAXIMUM_INGREDIENT_TYPES) {
             this.ingredients.add(ingredient);
         } else {
             throw new IllegalStateException("Inventory is full. Cannot add more ingredients.");

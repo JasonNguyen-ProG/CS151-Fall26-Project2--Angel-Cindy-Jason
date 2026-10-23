@@ -20,7 +20,7 @@ public class Order {
 
     // Order constructor
     public Order(int orderID) {
-        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+        if (instanceCount >= SystemConstant.MAXIMUM_INSTANCES) {
             throw new MaximumInstanceException(
                     "Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Order objects");
         }
@@ -34,57 +34,57 @@ public class Order {
 
     // Order getters
     public int getOrderID() {
-        return orderID;
+        return this.orderID;
     }
 
     public ArrayList<MenuItem> getItems() {
-        return items;
+        return this.items;
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     // Order items
     public void addItem(MenuItem item) {
-        items.add(item);
+        this.items.add(item);
     }
 
     public void removeItem(MenuItem item) {
-        items.remove(item);
+        this.items.remove(item);
     }
 
     // Order prices
     public double calcSubtotal() {
-        subtotal = 0.0;
+        this.subtotal = 0.0;
         for (MenuItem item : items) {
-            subtotal += item.calcPriceAfterDiscount();
+            this.subtotal += item.calcPriceAfterDiscount();
         }
-        return subtotal;
+        return this.subtotal;
     }
 
     public double calcTax() {
-        tax = calcSubtotal() * 0.10; // Tax rate 10%
-        return tax;
+        this.tax = calcSubtotal() * 0.10; // Tax rate 10%
+        return this.tax;
     }
 
     public double calcTotal() {
-        total = calcSubtotal() + calcTax();
-        return total;
+        this.total = calcSubtotal() + calcTax();
+        return this.total;
     }
 
     // Order status
     public void submitOrder(Inventory inventory) {
-        for (MenuItem item : items) {
+        for (MenuItem item : this.items) {
             if (!item.canServe(inventory)) {
                 throw new IllegalStateException(item.getName() + " cannot be served");
             }
         }
-        status = "Submitted";
+        this.status = "Submitted";
     }
 
     public void cancelOrder() {
-        status = "Cancelled";
+        this.status = "Cancelled";
     }
 
     public void updateStatus(String status) {

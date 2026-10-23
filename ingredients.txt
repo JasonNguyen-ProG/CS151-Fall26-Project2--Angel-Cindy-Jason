@@ -1,0 +1,40 @@
+ID, Ingredient, Initial_Qty, Min_Stock, Customization_Price
+1	Black Tea	50	10	$0.00
+2	Green Tea	50	10	$0.00
+3	Thai Tea	40	10	$0.00
+4	Matcha	30	5	$0.75
+5	Milk	50	10	$0.50
+6	Condensed Milk	30	5	$0.50
+7	Brown Sugar	40	5	$0.00
+8	Strawberry Syrup	30	5	$0.50
+9	Mango Syrup	30	5	$0.50
+10	Espresso	40	10	$1.00
+11	Chocolate	30	5	$0.50
+12	Water	100	10	$0.00
+13	Boba	40	10	$0.75
+14	Grass Jelly	30	5	$0.75
+15	Pudding	30	5	$0.75
+16	Whipped Cream	30	5	$0.50
+17	English Muffin	30	5	$0.00
+18	Egg	40	10	$1.25
+19	Cheddar Cheese	30	5	$0.75
+20	Bacon	30	5	$1.50
+21	Ciabatta Bread	30	5	$0.00
+22	Chicken	40	10	$2.00
+23	Mozzarella	30	5	$0.75
+24	Pesto	30	5	$0.50
+25	Tomato	30	5	$0.50
+26	Brioche Bun	30	5	$0.00
+27	Lettuce	30	5	$0.25
+28	Pickles	30	5	$0.25
+29	Spicy Mayo	30	5	$0.50
+30	Sourdough	30	5	$0.00
+31	Avocado	30	5	$1.50
+32	Chili Flakes	30	5	$0.25
+33	Rice	50	10	$1.00
+34	Carrot	30	5	$0.50
+35	Cucumber	30	5	$0.50
+36	Teriyaki Sauce	30	5	$0.50
+37	Butter Croissant	20	5	$0.00
+38	Chocolate Chip Cookie	20	5	$0.00
+39	Blueberry Muffin	20	5	$0.00

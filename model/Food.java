@@ -23,7 +23,7 @@ public class Food extends MenuItem {
             ArrayList<Ingredient> currentIngredients, ArrayList<Ingredient> customizations, String specialRequest) {
         super(itemID, name, price, inStock, discountable, rate);
         
-        if (instanceCount > SystemConstant.MAXIMUM_INSTANCES) {
+        if (instanceCount >= SystemConstant.MAXIMUM_INSTANCES) {
             throw new MaximumInstanceException("Cannot have more than " + SystemConstant.MAXIMUM_INSTANCES + " Food objects");
         }
         

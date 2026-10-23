@@ -1,0 +1,11 @@
+ID, Drink, Base_Price, Size, Sweetness, Ice, Temp, Base_Ingredients
+101	Classic Milk Tea	$4.50	Small	100%	100%	Cold	Black Tea, Milk
+102	Thai Milk Tea	$4.75	Small	100%	100%	Cold	Thai Tea, Milk
+103	Matcha Latte	$5.00	Small	75%	100%	Cold	Matcha, Milk
+104	Brown Sugar Milk Tea	$5.25	Small	100%	100%	Cold	Black Tea, Milk, Brown Sugar
+105	Strawberry Green Tea	$4.75	Small	75%	100%	Cold	Green Tea, Strawberry Syrup
+106	Mango Green Tea	$4.75	Small	75%	100%	Cold	Green Tea, Mango Syrup
+107	Vietnamese Coffee	$4.50	Small	100%	50%	Cold	Espresso, Condensed Milk
+108	Cafe Latte	$4.25	Small	0%	0%	Hot	Espresso, Milk
+109	Mocha	$4.75	Small	50%	0%	Hot	Espresso, Milk, Chocolate
+110	Americano	$3.25	Small	0%	0%	Hot	Espresso, Water
