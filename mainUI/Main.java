@@ -7,6 +7,7 @@ import exceptions.InvalidIngredientException;
 
 import management.Cafe;
 import management.Menu;
+import management.SystemConstant;
 import management.Inventory;
 
 import model.Order;
@@ -39,6 +40,7 @@ public class Main {
         Inventory inventory = new Inventory(ingredientsList);
         Menu menu = new Menu();
 
+        initializeFoods(menu, ingredientsList);
         initializeDrinks(menu, ingredientsList);
 
         myCafe = new Cafe("JAC Cafe", menu, inventory);
@@ -91,10 +93,94 @@ public class Main {
         return finalList;
     }
 
-    // private static void initializeFoods(Menu menu, ArrayList<Ingredient>
-    // ingredientsList) {
+    private static void initializeFoods(Menu menu, ArrayList<Ingredient> ingredientsList) {
+        // Food 1
+        ArrayList<Ingredient> breakfastSandwichIngredients = new ArrayList<>();
+        breakfastSandwichIngredients.add(findIngredientByName(ingredientsList, "English Muffin"));
+        breakfastSandwichIngredients.add(findIngredientByName(ingredientsList, "Egg"));
+        breakfastSandwichIngredients.add(findIngredientByName(ingredientsList, "Cheddar Cheese"));
+        breakfastSandwichIngredients.add(findIngredientByName(ingredientsList, "Bacon"));
 
-    // }
+        Food breakfastSandwich = new Food(201, "Breakfast Sandwich", 8.50, true, false, 0.0, "Regular", "None",
+                breakfastSandwichIngredients, new ArrayList<>(), "");
+
+        // Food 2
+        ArrayList<Ingredient> chickenPestoSandwichIngredients = new ArrayList<>();
+        chickenPestoSandwichIngredients.add(findIngredientByName(ingredientsList, "Ciabatta Bread"));
+        chickenPestoSandwichIngredients.add(findIngredientByName(ingredientsList, "Chicken"));
+        chickenPestoSandwichIngredients.add(findIngredientByName(ingredientsList, "Mozzarella"));
+        chickenPestoSandwichIngredients.add(findIngredientByName(ingredientsList, "Pesto"));
+        chickenPestoSandwichIngredients.add(findIngredientByName(ingredientsList, "Tomato"));
+
+        Food chickenPestoSandwich = new Food(202, "Chicken Pesto Sandwich", 10.50, true, false, 0.0, "Regular", "None",
+                chickenPestoSandwichIngredients, new ArrayList<>(), "");
+
+        // Food 3
+        ArrayList<Ingredient> spicyChickenSandwichIngredients = new ArrayList<>();
+        spicyChickenSandwichIngredients.add(findIngredientByName(ingredientsList, "Brioche Bun"));
+        spicyChickenSandwichIngredients.add(findIngredientByName(ingredientsList, "Chicken"));
+        spicyChickenSandwichIngredients.add(findIngredientByName(ingredientsList, "Lettuce"));
+        spicyChickenSandwichIngredients.add(findIngredientByName(ingredientsList, "Pickles"));
+        spicyChickenSandwichIngredients.add(findIngredientByName(ingredientsList, "Spicy Mayo"));
+
+        Food spicyChickenSandwich = new Food(203, "Spicy Chicken Sandwich", 10.00, true, true,
+                SystemConstant.ITEM_DISCOUNT_RATE, "Regular", "Hot",
+                spicyChickenSandwichIngredients, new ArrayList<>(), "");
+
+        // Food 4
+        ArrayList<Ingredient> avocadoToastIngredients = new ArrayList<>();
+        avocadoToastIngredients.add(findIngredientByName(ingredientsList, "Sourdough"));
+        avocadoToastIngredients.add(findIngredientByName(ingredientsList, "Avocado"));
+        avocadoToastIngredients.add(findIngredientByName(ingredientsList, "Egg"));
+        avocadoToastIngredients.add(findIngredientByName(ingredientsList, "Chili Flakes"));
+
+        Food avocadoToast = new Food(204, "Avocado Toast", 8.00, true, false, 0.0, "Regular", "Mild",
+                avocadoToastIngredients, new ArrayList<>(), "");
+
+        // Food 5
+        ArrayList<Ingredient> chickenTeriyakiIngredients = new ArrayList<>();
+        chickenTeriyakiIngredients.add(findIngredientByName(ingredientsList, "Rice"));
+        chickenTeriyakiIngredients.add(findIngredientByName(ingredientsList, "Chicken"));
+        chickenTeriyakiIngredients.add(findIngredientByName(ingredientsList, "Carrot"));
+        chickenTeriyakiIngredients.add(findIngredientByName(ingredientsList, "Cucumber"));
+        chickenTeriyakiIngredients.add(findIngredientByName(ingredientsList, "Teriyaki Sauce"));
+
+        Food chickenTeriyaki = new Food(205, "Chicken Teriyaki Rice Bowl", 11.50, true, true,
+                SystemConstant.ITEM_DISCOUNT_RATE, "Regular", "None",
+                chickenTeriyakiIngredients, new ArrayList<>(), "");
+
+        // Food 6
+        ArrayList<Ingredient> butterCroissantIngredients = new ArrayList<>();
+        butterCroissantIngredients.add(findIngredientByName(ingredientsList, "Butter Croissant"));
+
+        Food butterCroissant = new Food(206, "Butter Croissant", 4.00, true, false,
+                0.0, "Individual", "None",
+                butterCroissantIngredients, new ArrayList<>(), "");
+
+        // Food 7
+        ArrayList<Ingredient> chocolateChipCookieIngredients = new ArrayList<>();
+        chocolateChipCookieIngredients.add(findIngredientByName(ingredientsList, "Chocolate Chip Cookie"));
+
+        Food chocolateChipCookie = new Food(207, "Chocolate Chip Cookie", 3.00, true, false,
+                0.0, "Individual", "None",
+                chocolateChipCookieIngredients, new ArrayList<>(), "");
+
+        // Food 8
+        ArrayList<Ingredient> blueberryMuffinIngredients = new ArrayList<>();
+        blueberryMuffinIngredients.add(findIngredientByName(ingredientsList, "Blueberry Muffin"));
+
+        Food blueberryMuffin = new Food(208, "Blueberry Muffin", 4.25, true, false,
+                0.0, "Individual", "None",
+                blueberryMuffinIngredients, new ArrayList<>(), "");
+
+        menu.addItem(breakfastSandwich);
+        menu.addItem(chickenPestoSandwich);
+        menu.addItem(spicyChickenSandwich);
+        menu.addItem(avocadoToast);
+        menu.addItem(chickenTeriyaki);
+        menu.addItem(butterCroissant);
+        menu.addItem(chocolateChipCookie);
+    }
 
     private static void initializeDrinks(Menu menu, ArrayList<Ingredient> ingredientsList) {
 

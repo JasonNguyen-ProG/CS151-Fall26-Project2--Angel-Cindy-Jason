@@ -67,8 +67,17 @@ public class Menu {
     }
 
     public void displayAvailableItems() {
+        System.out.println("        -----Food-----");
         for (MenuItem item : this.menuItems) {
-            if (item.getInStock()) {
+            if (item.getInStock() && item.getCategory().equalsIgnoreCase("Food")) {
+                System.out.println(item.getName() + " - $" + item.calcPrice());
+            }
+        }
+
+        System.out.println();
+        System.out.println("        -----Drink-----");
+        for (MenuItem item : this.menuItems) {
+            if (item.getInStock() && item.getCategory().equalsIgnoreCase("Drink")) {
                 System.out.println(item.getName() + " - $" + item.calcPrice());
             }
         }
