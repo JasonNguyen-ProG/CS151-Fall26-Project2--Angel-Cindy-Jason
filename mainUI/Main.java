@@ -501,7 +501,36 @@ public class Main {
         System.out.println("4. 75%");
         System.out.println("5. 100%");
 
+        System.out.print("\nChoose sweetness level: ");
+        String input = scanner.nextLine().trim();
+
+        switch (input) {
+            case "1":
+                currDrink.adjustSweetness(0.0);
+                break;
+
+            case "2":
+                currDrink.adjustSweetness(0.25);
+                break;
+
+            case "3":
+                currDrink.adjustSweetness(0.50);
+                break;
+
+            case "4":
+                currDrink.adjustSweetness(0.75);
+                break;
+
+            case "5":
+                currDrink.adjustSweetness(1.0);
+                break;
+
+            default:
+                System.out.println("Invalid sweetness level!");
+                return;
+        }
         
+        System.out.println("Sweetness level changed to " + (int) (currDrink.getSweetnessLvl() * 100) + "%");
     }
 
     private static void viewCurrentOrder(Order order) {
