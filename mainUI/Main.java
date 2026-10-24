@@ -654,6 +654,52 @@ public class Main {
         }
     }
 
+    private static void addDrinkTopping(Drink currDrink) {
+        System.out.println();
+        System.out.println("Available Toppings:");
+        System.out.println("1. Boba (+$0.75)");
+        System.out.println("2. Grass Jelly (+$0.75)");
+        System.out.println("3. Pudding (+$0.75)");
+        System.out.println("4. Whipped Cream (+$0.50)");
+        System.out.println("5. Extra Espresso (+$1.00)");
+
+        System.out.print("\nChoose topping: ");
+        String input = scanner.nextLine().trim();
+
+        Ingredient topping;
+
+        switch (input) {
+            case "1":
+                topping = findIngredientByName(myCafe.getInventory().getIngredients(), "Boba");
+                break;
+
+            case "2":
+                topping = findIngredientByName(myCafe.getInventory().getIngredients(), "Grass Jelly");
+                break;
+
+            case "3":
+                topping = findIngredientByName(myCafe.getInventory().getIngredients(), "Pudding");
+                break;
+
+            case "4":
+                topping = findIngredientByName(myCafe.getInventory().getIngredients(), "Whipped Cream");
+                break;
+
+            case "5":
+                topping = findIngredientByName(myCafe.getInventory().getIngredients(), "Espresso");
+                break;
+
+            default:
+                System.out.println("Invalid topping!");
+                return;
+        }
+        
+        currDrink.addTopping(topping);
+
+        System.out.println(topping.getName() + " added");
+        System.out.printf("New Price: $%.2f\n", currDrink.calcPrice());
+    }
+
     // customizeFood() helpers
     private static void changeSpiceLvl(Food currFood) {
         System.out.println();
