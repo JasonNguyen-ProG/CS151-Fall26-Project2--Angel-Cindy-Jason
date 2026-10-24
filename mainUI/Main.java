@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 import exceptions.InvalidIngredientException;
-
+import exceptions.InvalidNumericValueException;
 import management.Cafe;
 import management.Menu;
 import management.SystemConstant;
@@ -293,6 +293,54 @@ public class Main {
 
     // TODO: createOrder()
     private static void createOrder() {
+        int orderID = myCafe.getOrders().size() + 1;
+        Order currentOrder = new Order(orderID);
+
+        boolean ordering = true;
+
+        while (ordering) {
+            System.out.println();
+            System.out.println("===============================");
+            System.out.println("          Order #" + orderID);
+            System.out.println("===============================");
+            System.out.println("1. Add Item");
+            System.out.println("2. View Current Order");
+            System.out.println("3. Submit Order");
+            System.out.println("4. Cancel Order");
+
+            System.out.print("\nSelect option (1 - 4): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            switch (input) {
+                case "1":
+                    addItemToOrder(currentOrder);
+                    break;
+
+                case "2":
+                    viewCurrentOrder(currentOrder);
+                    break;
+
+                case "3":
+                    break;
+
+                case "4":
+                    currentOrder.cancelOrder();
+                    System.out.println("Order cancelled...");
+                    ordering = false;
+                    break;
+            
+                default:
+                    System.out.println("Invalid option! Please choose options 1 - 4");
+            }
+        }
+    }
+
+    private static void addItemToOrder(Order currentOrder) {
         System.out.println();
         System.out.println("===============================");
         System.out.println("         Create Order");
@@ -329,9 +377,157 @@ public class Main {
 
             MenuItem selectedItem = menuItem.customerCopy();
 
+            if (selectedItem instanceof Food) {
+                customizeFood((Food) selectedItem);
+            } else if (selectedItem instanceof Drink) {
+                customizeDrink((Drink) selectedItem);
+            }
+
+            currentOrder.addItem(selectedItem);
+
+            System.out.println(selectedItem.getName() + " added to Order #" + currentOrder.getOrderID());
+
         } catch (NumberFormatException e) {
             System.out.println("Invalid Item ID. Please re-enter!");
         }
+    }
+
+    private static void customizeFood(Food currFood) {
+
+    }
+
+    private static void customizeDrink(Drink currDrink) {
+        boolean customizing = true;
+
+        while (customizing) {
+            System.out.println();
+            System.out.println("===============================");
+            System.out.println("       Customize Drink");
+            System.out.println("===============================");
+            System.out.println("Drink: " + currDrink.getName());
+            System.out.println("Size: " + currDrink.getSize());
+            System.out.println("Sweetness: " + (int) (currDrink.getSweetnessLvl() * 100) + "%");
+            System.out.println("Ice Level: " + (int) (currDrink.getIceLvl() * 100) + "%");
+            System.out.println("Temperature: " + currDrink.getTemperature());
+            System.out.printf("Price: $%.2f\n", currDrink.calcPrice());
+
+            System.out.println();
+            System.out.println("1. Change Size");
+            System.out.println("2. Adjust Sweetness");
+            System.out.println("3. Adjust Ice Level");
+            System.out.println("4. Change Temperature");
+            System.out.println("5. Add Topping");
+            System.out.println("6. Remove Topping");
+            System.out.println("7. Finish Customization");
+
+            System.out.print("\nSelect Option (1 - 7): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            switch (input) {
+                case "1":
+                    changeDrinkSize(currDrink);
+                    break;
+
+                case "2":
+                    changeSweetnessLvl(currDrink);
+                    break;
+
+                case "3":
+                    changeIceLvl(currDrink);
+                    break;
+
+                case "4":
+                    changeDrinkTemperature(currDrink);
+                    break;
+
+                case "5":
+                    addDrinkTopping(currDrink);
+                    break;
+
+                case "6":
+                    removeDrinkTopping(currDrink);
+                    break;
+
+                case "7":
+                    customizing = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option! Please choose 1 - 7");
+            }
+        }
+    }
+    
+    private static void changeDrinkSize(Drink currDrink) {
+        System.out.println();
+        System.out.println("1. Small");
+        System.out.println("2. Medium (+$1.00)");
+        System.out.println("3. Large (+$2.00)");
+
+        System.out.print("Choose size: ");
+        String input = scanner.nextLine().trim();
+
+        switch (input) {
+            case "1":
+                currDrink.setSize("Small");
+                break;
+
+            case "2":
+                currDrink.setSize("Medium");
+                break;
+
+            case "3":
+                currDrink.setSize("Large");
+                break;
+
+            default:
+                System.out.println("Invalid size!");
+                return;
+        }
+
+        System.out.println("Drink Size Changed to " + currDrink.getSize());
+    }
+    
+    private static void changeSweetnessLvl(Drink currDrink) {
+        System.out.println();
+        System.out.println("1. 0%");
+        System.out.println("2. 25%");
+        System.out.println("3. 50%");
+        System.out.println("4. 75%");
+        System.out.println("5. 100%");
+
+        
+    }
+
+    private static void viewCurrentOrder(Order order) {
+        System.out.println();
+        System.out.println("===============================");
+        System.out.println("          Order #" + order.getOrderID());
+        System.out.println("===============================");
+
+        if (order.getItems().isEmpty()) {
+            System.out.println("Order is currently empty.");
+            return;
+        }
+
+        int itemNum = 1;
+        for (MenuItem item : order.getItems()) {
+            System.out.printf("%d. %-25s $%.2f\n", itemNum, item.getName(), item.calcPriceAfterDiscount());
+            itemNum++;
+        }
+
+        System.out.println("-------------------------------");
+
+        System.out.printf("Subtotal:        $%.2f\n", order.calcSubtotal());
+        System.out.printf("Order Discount: -$%.2f\n", order.calcDiscount());
+        System.out.printf("Tax:             $%.2f\n", order.calcTax());
+        System.out.printf("Total:           $%.2f\n", order.calcTotal());
+        System.out.println("===============================");
     }
 
     // TODO: manageOrder()
