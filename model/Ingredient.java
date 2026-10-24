@@ -2,6 +2,7 @@ package model;
 
 import exceptions.InvalidNumericValueException;
 import exceptions.MaximumInstanceException;
+
 import management.SystemConstant;
 
 public class Ingredient {
@@ -29,11 +30,6 @@ public class Ingredient {
         this.priceAsCustomization = priceAsCustomization;
 
         instanceCount++;
-    }
-
-    //instance 
-    public static void resetInstanceCount() {
-        instanceCount = 0;
     }
 
     // Getter and setter methods for each field.
