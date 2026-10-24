@@ -6,16 +6,25 @@
   - Implement Cafe class
   - Implement Menu class
   - Implement Order class
+  - Tested Order
+  - Tested Menu
+  - Tested Cafe
+  - Tested Food
 
 2. Cindy Nguyen
   - Implement Inventory class
   - Implement Ingredient class
+  - Tested Inventory
+  - Tested Ingredient
+  - Tested Drink
 
 3. Nguyen Nguyen (Jason)
   - Implement MenuItem abstract class
   - Implement Food class
   - Implement Drink class
   - Implement Discountable interface
+  - Implemented Main.java
+  - Implemented SystemConstant
 
 
 ## UML Class Diagram:

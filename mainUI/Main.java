@@ -32,7 +32,7 @@ public class Main {
         System.out.println("4. Manage Menu");
         System.out.println("5. Manage Inventory");
         System.out.println("6. Cafe Summary");
-        System.out.println("7. Exit");
+        System.out.println("7. Exit (Or type 'EXIT' at anytime to exit program)");
     }
 
     private static void initializeCafe() {
