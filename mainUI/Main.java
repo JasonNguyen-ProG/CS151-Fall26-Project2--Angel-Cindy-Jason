@@ -393,7 +393,64 @@ public class Main {
     }
 
     private static void customizeFood(Food currFood) {
+        boolean customizing = true;
 
+        while (customizing) {
+            System.out.println();
+            System.out.println("===============================");
+            System.out.println("        Customize Food");
+            System.out.println("===============================");
+            System.out.println("Food: " + currFood.getName());
+            System.out.println("Size: " + currFood.getSize());
+            System.out.println("Spice Level: " + currFood.getSpiceLvl());
+            System.out.printf("Price: $%.2f\n", currFood.calcPrice());
+
+            System.out.println();
+            System.out.println("1. Add Extra Ingredient");
+            System.out.println("2. Remove Ingredient");
+            System.out.println("3. Substitute Ingredient");
+            System.out.println("4. Change Spice Level");
+            System.out.println("5. Add Special Request");
+            System.out.println("6. Finish Customization");
+
+            System.out.print("\nSelect option (1 - 6): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            switch (input) {
+                case "1":
+                    addExtraIngredient(currFood);
+                    break;
+
+                case "2":
+                    removeIngredient(currFood);
+                    break;
+
+                case "3":
+                    substituteIngredient(currFood);
+                    break;
+
+                case "4":
+                    changeSpiceLvl(currFood);
+                    break;
+
+                case "5":
+                    addFoodSpecialRequest(currFood);
+                    break;
+            
+                case "6":
+                    customizing = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option! Please choose 1 - 6");
+            }
+
+        }
     }
 
     private static void customizeDrink(Drink currDrink) {
@@ -463,6 +520,7 @@ public class Main {
         }
     }
     
+    // customizeDrink() helpers
     private static void changeDrinkSize(Drink currDrink) {
         System.out.println();
         System.out.println("1. Small");
@@ -589,11 +647,60 @@ public class Main {
             case "2":
                 currDrink.setTemperature("Cold");
                 break;
-        
+
             default:
                 System.out.println("Invalid temperature!");
                 return;
         }
+    }
+
+    // customizeFood() helpers
+    private static void changeSpiceLvl(Food currFood) {
+        System.out.println();
+        System.out.println("1. None");
+        System.out.println("2. Mild");
+        System.out.println("3. Medium");
+        System.out.println("4. Hot");
+
+        System.out.print("Choose spice level: ");
+        String input = scanner.nextLine().trim();
+
+        switch (input) {
+            case "1":
+                currFood.setSpiceLvl("None");
+                break;
+
+            case "2":
+                currFood.setSpiceLvl("Mild");
+                break;
+
+            case "3":
+                currFood.setSpiceLvl("Medium");
+                break;
+
+            case "4":
+                currFood.setSpiceLvl("Hot");
+                break;
+
+            default:
+                System.out.println("Invalid spice level!");
+                return;
+        }
+
+        System.out.println("Spice level changed to " + currFood.getSpiceLvl());
+    }
+    
+    private static void addFoodSpecialRequest(Food currFood) {
+        System.out.print("Enter special request");
+        String request = scanner.nextLine().trim();
+
+        if (request.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
+
+        currFood.setSpecialRequest(request);
+        System.out.println("Special request added...");
     }
 
     private static void viewCurrentOrder(Order order) {
