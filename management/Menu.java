@@ -47,15 +47,6 @@ public class Menu {
         return null;
     }
 
-    public MenuItem findItemByName(String name) {
-        for (MenuItem item : this.menuItems) {
-            if (item.getName().equals(name)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
     public ArrayList<MenuItem> findItemByCategory(String category) {
         ArrayList<MenuItem> matches = new ArrayList<>();
         for (MenuItem item : this.menuItems) {
