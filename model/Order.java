@@ -104,6 +104,11 @@ public class Order implements Discountable {
                 throw new IllegalStateException(item.getName() + " cannot be served");
             }
         }
+
+        for (MenuItem item : this.items) {
+            item.consumeIngredients(inventory);
+        }
+
         this.status = "Submitted";
     }
 
@@ -112,6 +117,11 @@ public class Order implements Discountable {
     }
 
     public void updateStatus(String status) {
+        if (!status.equalsIgnoreCase("Submitted") && !status.equalsIgnoreCase("Preparing")
+                && !status.equalsIgnoreCase("Ready") && !status.equalsIgnoreCase("Completed")) {
+            System.out.println("Invalid status");
+        }
+
         this.status = status;
     }
 }
