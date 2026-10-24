@@ -29,6 +29,8 @@ public abstract class MenuItem implements Discountable{
 
     public abstract boolean canServe(Inventory inventory);
 
+    public abstract MenuItem customerCopy();
+
     /*-----Interface Methods-----*/
     @Override 
     public boolean isDiscountable() {

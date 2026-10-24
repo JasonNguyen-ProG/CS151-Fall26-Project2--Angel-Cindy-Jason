@@ -127,6 +127,16 @@ public class Food extends MenuItem {
         return inventory.hasIngredients(currentIngredients) && inventory.hasIngredients(customizations);
     }
 
+    /**
+     * 
+     * @return customerCopy of MenuItem
+     */
+    @Override
+    public MenuItem customerCopy() {
+        return new Food(this.getItemID(), this.getName(), this.getPrice(), this.getInStock(), this.isDiscountable(), this.getDiscountRate(),
+                this.size, this.spiceLvl, new ArrayList<>(currentIngredients), new ArrayList<>(customizations), this.specialRequest);
+    }
+
     /*-----Getters and Setters-----*/
     public String getSize() {
         return this.size;
@@ -142,6 +152,14 @@ public class Food extends MenuItem {
 
     public void setSpiceLvl(String newSpiceLvl) {
         this.spiceLvl = newSpiceLvl;
+    }
+
+    public ArrayList<Ingredient> getCurrentIngredients() {
+        return this.currentIngredients;
+    }
+
+    public ArrayList<Ingredient> getCustomizations() {
+        return this.customizations;
     }
 
     public String getSpecialRequest() {
