@@ -31,6 +31,11 @@ public class Ingredient {
         instanceCount++;
     }
 
+    //instance 
+    public static void resetInstanceCount() {
+        instanceCount = 0;
+    }
+
     // Getter and setter methods for each field.
     public int getIngredientID() {
         return this.ingredientID;

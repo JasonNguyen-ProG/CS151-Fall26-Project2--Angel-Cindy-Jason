@@ -21,12 +21,15 @@ public class InventoryTest {
 
     @BeforeClass
     public static void createFixture() {
+        Ingredient.resetInstanceCount();
+        Inventory.resetInstanceCount();
+
         coffee = new Ingredient(1, "Coffee", 5, 1, 0.50);
         milk = new Ingredient(2, "Milk", 3, 2, 0.25);
         sugar = new Ingredient(3, "Sugar", 0, 0, 0.10);
         tea = new Ingredient(4, "Tea", 4, 1, 0.30);
 
-        inventory = new Inventory(new ArrayList<>(Arrays.asList(coffee, milk, sugar)));
+        inventory = new Inventory(new ArrayList<>(Arrays.<Ingredient>asList(coffee, milk, sugar)));
     }
 
     @Before
@@ -36,7 +39,7 @@ public class InventoryTest {
         sugar.setQty(0);
         tea.setQty(4);
 
-        inventory.setIngredients(new ArrayList<>(Arrays.asList(coffee, milk, sugar)));
+        inventory.setIngredients(new ArrayList<>(Arrays.<Ingredient>asList(coffee, milk, sugar)));
         inventory.setCapacity(3);
     }
 
@@ -95,14 +98,14 @@ public class InventoryTest {
 
     @Test
     public void hasIngredientsReturnsFalseWhenAnIngredientIsMissing() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.<Ingredient>asList(tea));
+        ArrayList<Ingredient> requested = new ArrayList<Ingredient>(Arrays.<Ingredient>asList(tea));
 
         assertFalse(inventory.hasIngredients(requested));
     }
 
     @Test
     public void hasIngredientsReturnsFalseWhenStockIsZero() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(sugar));
+        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.<Ingredient>asList(sugar));
 
         assertFalse(inventory.hasIngredients(requested));
     }
@@ -114,7 +117,7 @@ public class InventoryTest {
 
     @Test
     public void consumeIngredientsConsumesOneUnit() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(coffee));
+        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.<Ingredient>asList(coffee));
 
         inventory.consumeIngredients(requested);
 
@@ -123,7 +126,7 @@ public class InventoryTest {
 
     @Test(expected = InvalidIngredientException.class)
     public void consumeIngredientsThrowsWhenIngredientIsMissing() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(tea));
+        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.<Ingredient>asList(tea));
 
         inventory.consumeIngredients(requested);
     }
@@ -173,26 +176,22 @@ public class InventoryTest {
 
     @Test
     public void consumeIngredientsThrowsWhenIngredientIsOutOfStock() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(sugar));
+    ArrayList<Ingredient> requested = new ArrayList<>(Arrays.<Ingredient>asList(sugar));
 
-        try {
-            inventory.consumeIngredients(requested);
-            fail("Expected InvalidIngredientException");
-        } catch (InvalidIngredientException e) {
-            assertEquals(0, sugar.getQty());
-        }
+    assertThrows(InvalidIngredientException.class,
+            () -> inventory.consumeIngredients(requested));
+
+    assertEquals(0, sugar.getQty());
     }
 
     @Test
     public void consumeIngredientsChangesNothingWhenOneIngredientIsOutOfStock() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(coffee, sugar));
+    ArrayList<Ingredient> requested = new ArrayList<>(Arrays.<Ingredient>asList(coffee, sugar));
 
-        try {
-            inventory.consumeIngredients(requested);
-            fail("Expected InvalidIngredientException");
-        } catch (InvalidIngredientException e) {
-            assertEquals(5, coffee.getQty());
-            assertEquals(0, sugar.getQty());
-        }
+    assertThrows(InvalidIngredientException.class,
+            () -> inventory.consumeIngredients(requested));
+
+    assertEquals(5, coffee.getQty());
+    assertEquals(0, sugar.getQty());
     }
-}
+}   

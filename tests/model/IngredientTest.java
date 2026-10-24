@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import exceptions.InvalidNumericValueException;
+import model.Ingredient;
 
 public class IngredientTest {
     private static Ingredient ingredient;

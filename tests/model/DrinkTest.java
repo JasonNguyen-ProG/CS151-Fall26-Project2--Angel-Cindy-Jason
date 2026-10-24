@@ -39,10 +39,10 @@ public class DrinkTest {
                 0.50,
                 0.50,
                 "Cold",
-                new ArrayList<>(Arrays.asList(coffee)),
-                new ArrayList<>(Arrays.asList(boba)));
+                new ArrayList<>(Arrays.<Ingredient>asList(coffee)),
+                new ArrayList<>(Arrays.<Ingredient>asList(boba)));
 
-        inventory = new Inventory(new ArrayList<>(Arrays.asList(coffee, boba)), 3);
+        inventory = new Inventory(new ArrayList<>(Arrays.<Ingredient>asList(coffee, boba)));
     }
 
     @Before
@@ -63,7 +63,7 @@ public class DrinkTest {
         drink.getToppings().add(boba);
 
         inventory.setIngredients(
-                new ArrayList<>(Arrays.asList(coffee, boba)));
+                new ArrayList<>(Arrays.<Ingredient>asList(coffee, boba)));
                 inventory.setCapacity(3);
     }
 
@@ -177,7 +177,7 @@ public class DrinkTest {
 
     @Test
     public void canServeReturnsFalseWhenAnIngredientIsMissing() {
-        inventory.setIngredients(new ArrayList<>(Arrays.asList(coffee)));
+        inventory.setIngredients(new ArrayList<>(Arrays.<Ingredient>asList(coffee)));
 
         assertFalse(drink.canServe(inventory));
     }
