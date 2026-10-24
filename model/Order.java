@@ -117,6 +117,11 @@ public class Order implements Discountable {
     }
 
     public void updateStatus(String status) {
+        if (!status.equalsIgnoreCase("Submitted") && !status.equalsIgnoreCase("Preparing")
+                && !status.equalsIgnoreCase("Ready") && !status.equalsIgnoreCase("Completed")) {
+            System.out.println("Invalid status");
+        }
+
         this.status = status;
     }
 }

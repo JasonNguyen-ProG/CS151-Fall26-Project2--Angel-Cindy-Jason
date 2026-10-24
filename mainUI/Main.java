@@ -305,10 +305,11 @@ public class Main {
             System.out.println("===============================");
             System.out.println("1. Add Item");
             System.out.println("2. View Current Order");
-            System.out.println("3. Submit Order");
-            System.out.println("4. Cancel Order");
+            System.out.println("3. Remove Item");
+            System.out.println("4. Submit Order");
+            System.out.println("5. Cancel Order");
 
-            System.out.print("\nSelect option (1 - 4): ");
+            System.out.print("\nSelect option (1 - 5): ");
             String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("EXIT")) {
@@ -326,19 +327,23 @@ public class Main {
                     break;
 
                 case "3":
+                    removeItemFromOrder(currentOrder);
+                    break;
+
+                case "4":
                     if (submitCurrentOrder(currentOrder)) {
                         ordering = false;
                     }
                     break;
 
-                case "4":
+                case "5":
                     currentOrder.cancelOrder();
                     System.out.println("Order cancelled...");
                     ordering = false;
                     break;
 
                 default:
-                    System.out.println("Invalid option! Please choose options 1 - 4");
+                    System.out.println("Invalid option! Please choose options 1 - 5");
             }
         }
     }
@@ -420,6 +425,42 @@ public class Main {
         System.out.printf("Tax:             $%.2f\n", currOrder.calcTax());
         System.out.printf("Total:           $%.2f\n", currOrder.calcTotal());
         System.out.println("===============================");
+    }
+
+    private static void removeItemFromOrder(Order currOrder) {
+        if (currOrder.getItems().isEmpty()) {
+            System.out.println("Order is currently empty.");
+            return;
+        }
+
+        System.out.println("\nCurrent Items:");
+
+        for (int i = 0; i < currOrder.getItems().size(); i++) {
+            MenuItem item = currOrder.getItems().get(i);
+
+            System.out.printf("%d. %s - $%.2f%n", i + 1, item.getName(), item.calcPriceAfterDiscount());
+        }
+
+        System.out.print("\nChoose item to remove: ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int choice = Integer.parseInt(input);
+
+            if (choice < 1 || choice > currOrder.getItems().size()) {
+                System.out.println("Invalid item!");
+                return;
+            }
+
+            MenuItem item = currOrder.getItems().get(choice - 1);
+
+            currOrder.removeItem(item);
+
+            System.out.println(item.getName() + " removed from order.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number!");
+        }
     }
 
     private static boolean submitCurrentOrder(Order currOrder) {
@@ -1010,11 +1051,243 @@ public class Main {
         System.out.println("Special request added...");
     }
 
-    // TODO: manageOrder()
+    //-------------------------------------------------//
+    // DONE: manageOrder()
     private static void manageOrder() {
-        System.out.println("Manage Order");
+        boolean managing = true;
+
+        while (managing) {
+            System.out.println();
+            System.out.println("===============================");
+            System.out.println("         Manage Orders");
+            System.out.println("===============================");
+            System.out.println("1. View All Orders");
+            System.out.println("2. Find Order by ID");
+            System.out.println("3. Update Order Status");
+            System.out.println("4. Cancel Order");
+            System.out.println("5. Return to Main Menu");
+
+            System.out.print("\nSelect option (1 - 5): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            switch (input) {
+                case "1":
+                    viewAllOrders();
+                    break;
+
+                case "2":
+                    findOrderByID();
+                    break;
+
+                case "3":
+                    updateOrderStatus();
+                    break;
+
+                case "4":
+                    cancelExistingOrder();
+                    break;
+
+                case "5":
+                    managing = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option! Please choose 1 - 5");
+            }
+        }
     }
 
+    // manageOrder() helpers
+    private static void viewAllOrders() {
+        ArrayList<Order> orders = myCafe.getOrders();
+
+        if (orders.isEmpty()) {
+            System.out.println("\nNo orders found!");
+            return;
+        }
+
+        System.out.println();
+        System.out.println("==============================================");
+        System.out.println("                  All Orders");
+        System.out.println("==============================================");
+
+        for (Order order : orders) {
+            System.out.printf("Order #%d | Status: %-10s | Items: %d | Total: $%.2f%n", order.getOrderID(),
+                    order.getStatus(), order.getItems().size(), order.calcTotal());
+        }
+
+        System.out.println("==============================================");
+    }
+
+    private static void findOrderByID() {
+        if (myCafe.getOrders().isEmpty()) {
+            System.out.println("\nNo orders found!");
+            return;
+        }
+
+        System.out.print("\nEnter Order ID: ");
+        String input = scanner.nextLine().trim();
+
+        if (input.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
+
+        try {
+            int orderID = Integer.parseInt(input);
+
+            Order order = findOrder(orderID);
+            if (order == null) {
+                System.out.println("Order #" + orderID + " not found!");
+                return;
+            }
+
+            viewOrderDetails(order);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid Order ID!");
+        }
+    }
+
+    private static void updateOrderStatus() {
+        if (myCafe.getOrders().isEmpty()) {
+            System.out.println("\nNo orders found.");
+            return;
+        }
+
+        System.out.print("\nEnter Order ID: ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int orderID = Integer.parseInt(input);
+
+            Order order = findOrder(orderID);
+
+            if (order == null) {
+                System.out.println("Order #" + orderID + " not found.");
+                return;
+            }
+
+            if (order.getStatus().equalsIgnoreCase("Cancelled")) {
+                System.out.println("Cancelled orders cannot be updated.");
+                return;
+            }
+
+            System.out.println();
+            System.out.println("1. Submitted");
+            System.out.println("2. Preparing");
+            System.out.println("3. Ready");
+            System.out.println("4. Completed");
+
+            System.out.print("\nSelect new status: ");
+            String statusInput = scanner.nextLine().trim();
+
+            switch (statusInput) {
+                case "1":
+                    order.updateStatus("Submitted");
+                    break;
+
+                case "2":
+                    order.updateStatus("Preparing");
+                    break;
+
+                case "3":
+                    order.updateStatus("Ready");
+                    break;
+
+                case "4":
+                    order.updateStatus("Completed");
+                    break;
+
+                default:
+                    System.out.println("Invalid status!");
+                    return;
+            }
+
+            System.out.println("Order #" + orderID + " updated to " + order.getStatus() + ".");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid Order ID!");
+        }
+    }
+
+    private static void cancelExistingOrder() {
+        if (myCafe.getOrders().isEmpty()) {
+            System.out.println("\nNo orders found.");
+            return;
+        }
+
+        System.out.print("\nEnter Order ID: ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int orderID = Integer.parseInt(input);
+
+            Order order = findOrder(orderID);
+
+            if (order == null) {
+                System.out.println("Order #" + orderID + " not found.");
+                return;
+            }
+
+            if (order.getStatus().equalsIgnoreCase("Cancelled")) {
+                System.out.println("Order #" + orderID + " is already cancelled.");
+                return;
+            }
+
+            if (order.getStatus().equalsIgnoreCase("Completed")) {
+                System.out.println("Completed orders cannot be cancelled.");
+                return;
+            }
+
+            order.cancelOrder();
+
+            System.out.println("Order #" + orderID + " cancelled.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid Order ID!");
+        }
+    }
+
+    // findOrderByID() helper
+    private static Order findOrder(int orderID) {
+        for (Order order : myCafe.getOrders()) {
+            if (order.getOrderID() == orderID) {
+                return order;
+            }
+        }
+        return null;
+    }
+
+    private static void viewOrderDetails(Order order) {
+        System.out.println();
+        System.out.println("===============================");
+        System.out.println("          Order #" + order.getOrderID());
+        System.out.println("===============================");
+        System.out.println("Status: " + order.getStatus());
+        System.out.println();
+
+        int itemNum = 1;
+
+        for (MenuItem item : order.getItems()) {
+            System.out.printf( "%d. %-25s $%.2f%n", itemNum, item.getName(), item.calcPriceAfterDiscount());
+            itemNum++;
+        }
+
+        System.out.println("-------------------------------");
+
+        System.out.printf("Subtotal:        $%.2f%n", order.calcSubtotal());
+        System.out.printf("Order Discount: -$%.2f%n", order.calcDiscount());
+        System.out.printf("Tax:             $%.2f%n", order.calcTax());
+        System.out.printf("Total:           $%.2f%n", order.calcTotal());
+        System.out.println("===============================");
+    }
+    // -------------------------------------------------//
     private static void viewMenu() {
         System.out.println();
         System.out.println("===============================");
