@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import exceptions.InvalidIngredientException;
-import model.Inventory;
 import model.Ingredient;
+import management.Inventory;
 
 public class InventoryTest {
     private static Inventory inventory;
@@ -88,14 +88,14 @@ public class InventoryTest {
 
     @Test
     public void hasIngredientsReturnsTrueWhenAllAreAvailable() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(coffee, milk));
-
+        //ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(coffee, milk));
+        ArrayList<Ingredient> requested = new ArrayList<Ingredient>(Arrays.<Ingredient>asList(coffee, milk));
         assertTrue(inventory.hasIngredients(requested));
     }
 
     @Test
     public void hasIngredientsReturnsFalseWhenAnIngredientIsMissing() {
-        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(tea));
+        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.<Ingredient>asList(tea));
 
         assertFalse(inventory.hasIngredients(requested));
     }
@@ -145,5 +145,54 @@ public class InventoryTest {
 
         assertEquals(1, outOfStock.size());
         assertTrue(outOfStock.contains(sugar));
+    }
+
+    @Test
+    public void getIngredientsReturnsACopy() {
+        inventory.getIngredients().clear();
+
+        assertEquals(3, inventory.getIngredients().size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addIngredientThrowsWhenIngredientIsAlreadyPresent() {
+        inventory.setCapacity(4);
+
+        inventory.addIngredient(coffee);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addIngredientThrowsWhenIngredientIsNull() {
+        inventory.addIngredient(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void restockThrowsWhenQuantityIsNotPositive() {
+        inventory.restock("Coffee", 0);
+    }
+
+    @Test
+    public void consumeIngredientsThrowsWhenIngredientIsOutOfStock() {
+        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(sugar));
+
+        try {
+            inventory.consumeIngredients(requested);
+            fail("Expected InvalidIngredientException");
+        } catch (InvalidIngredientException e) {
+            assertEquals(0, sugar.getQty());
+        }
+    }
+
+    @Test
+    public void consumeIngredientsChangesNothingWhenOneIngredientIsOutOfStock() {
+        ArrayList<Ingredient> requested = new ArrayList<>(Arrays.asList(coffee, sugar));
+
+        try {
+            inventory.consumeIngredients(requested);
+            fail("Expected InvalidIngredientException");
+        } catch (InvalidIngredientException e) {
+            assertEquals(5, coffee.getQty());
+            assertEquals(0, sugar.getQty());
+        }
     }
 }
