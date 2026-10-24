@@ -326,6 +326,9 @@ public class Main {
                     break;
 
                 case "3":
+                    if (submitCurrentOrder(currentOrder)) {
+                        ordering = false;
+                    }
                     break;
 
                 case "4":
@@ -333,14 +336,15 @@ public class Main {
                     System.out.println("Order cancelled...");
                     ordering = false;
                     break;
-            
+
                 default:
                     System.out.println("Invalid option! Please choose options 1 - 4");
             }
         }
     }
 
-    private static void addItemToOrder(Order currentOrder) {
+    // createOrder() helpers
+    private static void addItemToOrder(Order currOrder) {
         System.out.println();
         System.out.println("===============================");
         System.out.println("         Create Order");
@@ -383,15 +387,67 @@ public class Main {
                 customizeDrink((Drink) selectedItem);
             }
 
-            currentOrder.addItem(selectedItem);
+            currOrder.addItem(selectedItem);
 
-            System.out.println(selectedItem.getName() + " added to Order #" + currentOrder.getOrderID());
+            System.out.println(selectedItem.getName() + " added to Order #" + currOrder.getOrderID());
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid Item ID. Please re-enter!");
         }
     }
 
+    private static void viewCurrentOrder(Order currOrder) {
+        System.out.println();
+        System.out.println("===============================");
+        System.out.println("          Order #" + currOrder.getOrderID());
+        System.out.println("===============================");
+
+        if (currOrder.getItems().isEmpty()) {
+            System.out.println("Order is currently empty.");
+            return;
+        }
+
+        int itemNum = 1;
+        for (MenuItem item : currOrder.getItems()) {
+            System.out.printf("%d. %-25s $%.2f\n", itemNum, item.getName(), item.calcPriceAfterDiscount());
+            itemNum++;
+        }
+
+        System.out.println("-------------------------------");
+
+        System.out.printf("Subtotal:        $%.2f\n", currOrder.calcSubtotal());
+        System.out.printf("Order Discount: -$%.2f\n", currOrder.calcDiscount());
+        System.out.printf("Tax:             $%.2f\n", currOrder.calcTax());
+        System.out.printf("Total:           $%.2f\n", currOrder.calcTotal());
+        System.out.println("===============================");
+    }
+
+    private static boolean submitCurrentOrder(Order currOrder) {
+        if (currOrder.getItems().isEmpty()) {
+            System.out.println("Cannot submit an empty order!");
+            return false;
+        }
+
+        try {
+            currOrder.submitOrder(myCafe.getInventory());
+            myCafe.submitOrder(currOrder);
+
+            System.out.println();
+            System.out.println("===============================");
+            System.out.println("      Order Submitted!");
+            System.out.println("===============================");
+
+            viewCurrentOrder(currOrder);
+
+            return true;
+        } catch (IllegalStateException e) {
+            System.out.println("Unable to submit order: " + e.getMessage());
+        }
+        
+        return false;
+    }
+
+    // addItemToOrder() helpers
     private static void customizeFood(Food currFood) {
         boolean customizing = true;
 
@@ -441,7 +497,7 @@ public class Main {
                 case "5":
                     addFoodSpecialRequest(currFood);
                     break;
-            
+
                 case "6":
                     customizing = false;
                     break;
@@ -519,7 +575,7 @@ public class Main {
             }
         }
     }
-    
+
     // customizeDrink() helpers
     private static void changeDrinkSize(Drink currDrink) {
         System.out.println();
@@ -550,7 +606,7 @@ public class Main {
 
         System.out.println("Drink Size Changed to " + currDrink.getSize());
     }
-    
+
     private static void changeSweetnessLvl(Drink currDrink) {
         System.out.println();
         System.out.println("1. 0%");
@@ -726,7 +782,7 @@ public class Main {
             Ingredient topping = currToppings.get(choice - 1);
             currDrink.removeTopping(topping);
 
-            System.out.println(topping.getName() + "removed...");
+            System.out.println(topping.getName() + " removed...");
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid number!");
         }
@@ -782,7 +838,7 @@ public class Main {
                 System.out.println("Invalid ingredient!");
                 return;
         }
-        
+
         currFood.addExtraIngredient(extra);
         System.out.println(extra.getName() + " added...");
 
@@ -896,7 +952,7 @@ public class Main {
                     System.out.println("Invalid substitution!");
                     return;
             }
-            
+
             currFood.substituteIngredient(original, substitution);
 
             System.out.println(original.getName() + " replaced with " + substitution.getName());
@@ -940,9 +996,9 @@ public class Main {
 
         System.out.println("Spice level changed to " + currFood.getSpiceLvl());
     }
-    
+
     private static void addFoodSpecialRequest(Food currFood) {
-        System.out.print("Enter special request");
+        System.out.print("Enter special request: ");
         String request = scanner.nextLine().trim();
 
         if (request.equalsIgnoreCase("EXIT")) {
@@ -952,32 +1008,6 @@ public class Main {
 
         currFood.setSpecialRequest(request);
         System.out.println("Special request added...");
-    }
-
-    private static void viewCurrentOrder(Order order) {
-        System.out.println();
-        System.out.println("===============================");
-        System.out.println("          Order #" + order.getOrderID());
-        System.out.println("===============================");
-
-        if (order.getItems().isEmpty()) {
-            System.out.println("Order is currently empty.");
-            return;
-        }
-
-        int itemNum = 1;
-        for (MenuItem item : order.getItems()) {
-            System.out.printf("%d. %-25s $%.2f\n", itemNum, item.getName(), item.calcPriceAfterDiscount());
-            itemNum++;
-        }
-
-        System.out.println("-------------------------------");
-
-        System.out.printf("Subtotal:        $%.2f\n", order.calcSubtotal());
-        System.out.printf("Order Discount: -$%.2f\n", order.calcDiscount());
-        System.out.printf("Tax:             $%.2f\n", order.calcTax());
-        System.out.printf("Total:           $%.2f\n", order.calcTotal());
-        System.out.println("===============================");
     }
 
     // TODO: manageOrder()
