@@ -1,12 +1,12 @@
 package model;
 
-import java.util.ArrayList;
-
 import exceptions.MaximumInstanceException;
+import interfaces.Discountable;
+import java.util.ArrayList;
 import management.Inventory;
 import management.SystemConstant;
 
-public class Order {
+public class Order implements Discountable {
 
     // Order fields
     private double tax;
@@ -54,6 +54,30 @@ public class Order {
         this.items.remove(item);
     }
 
+    // Interface methods
+    @Override
+    public boolean isDiscountable() {
+        for (MenuItem item : this.items) {
+            if (item.isDiscountable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public double calcDiscount() {
+        if (!this.isDiscountable()) {
+            return 0.0;
+        }
+        return this.calcSubtotal() * SystemConstant.ORDER_DISCOUNT_RATE;
+    }
+
+    @Override
+    public double calcPriceAfterDiscount() {
+        return this.calcSubtotal() - this.calcDiscount();
+    }
+
     // Order prices
     public double calcSubtotal() {
         this.subtotal = 0.0;
@@ -64,12 +88,12 @@ public class Order {
     }
 
     public double calcTax() {
-        this.tax = calcSubtotal() * 0.10; // Tax rate 10%
+        this.tax = this.calcPriceAfterDiscount() * SystemConstant.TAX_RATE;
         return this.tax;
     }
 
     public double calcTotal() {
-        this.total = calcSubtotal() + calcTax();
+        this.total = this.calcPriceAfterDiscount() + this.calcTax();
         return this.total;
     }
 
