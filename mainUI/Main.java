@@ -438,7 +438,7 @@ public class Main {
         for (int i = 0; i < currOrder.getItems().size(); i++) {
             MenuItem item = currOrder.getItems().get(i);
 
-            System.out.printf("%d. %s - $%.2f%n", i + 1, item.getName(), item.calcPriceAfterDiscount());
+            System.out.printf("%d. %s - $%.2f\n", i + 1, item.getName(), item.calcPriceAfterDiscount());
         }
 
         System.out.print("\nChoose item to remove: ");
@@ -1117,7 +1117,7 @@ public class Main {
         System.out.println("==============================================");
 
         for (Order order : orders) {
-            System.out.printf("Order #%d | Status: %-10s | Items: %d | Total: $%.2f%n", order.getOrderID(),
+            System.out.printf("Order #%d | Status: %-10s | Items: %d | Total: $%.2f\n", order.getOrderID(),
                     order.getStatus(), order.getItems().size(), order.calcTotal());
         }
 
@@ -1162,6 +1162,11 @@ public class Main {
 
         System.out.print("\nEnter Order ID: ");
         String input = scanner.nextLine().trim();
+
+        if (input.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
 
         try {
             int orderID = Integer.parseInt(input);
@@ -1225,6 +1230,11 @@ public class Main {
         System.out.print("\nEnter Order ID: ");
         String input = scanner.nextLine().trim();
 
+        if (input.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
+
         try {
             int orderID = Integer.parseInt(input);
 
@@ -1275,19 +1285,21 @@ public class Main {
         int itemNum = 1;
 
         for (MenuItem item : order.getItems()) {
-            System.out.printf( "%d. %-25s $%.2f%n", itemNum, item.getName(), item.calcPriceAfterDiscount());
+            System.out.printf("%d. %-25s $%.2f\n", itemNum, item.getName(), item.calcPriceAfterDiscount());
             itemNum++;
         }
 
         System.out.println("-------------------------------");
 
-        System.out.printf("Subtotal:        $%.2f%n", order.calcSubtotal());
-        System.out.printf("Order Discount: -$%.2f%n", order.calcDiscount());
-        System.out.printf("Tax:             $%.2f%n", order.calcTax());
-        System.out.printf("Total:           $%.2f%n", order.calcTotal());
+        System.out.printf("Subtotal:        $%.2f\n", order.calcSubtotal());
+        System.out.printf("Order Discount: -$%.2f\n", order.calcDiscount());
+        System.out.printf("Tax:             $%.2f\n", order.calcTax());
+        System.out.printf("Total:           $%.2f\n", order.calcTotal());
         System.out.println("===============================");
     }
+    
     // -------------------------------------------------//
+    
     private static void viewMenu() {
         System.out.println();
         System.out.println("===============================");
@@ -1300,19 +1312,576 @@ public class Main {
         System.out.println();
     }
 
-    // TODO: manageMenu()
+    // -------------------------------------------------//
+
+    // DONE: manageMenu()
     private static void manageMenu() {
-        System.out.println("Manage Menu");
+        boolean managing = true;
+
+        while (managing) {
+            System.out.println();
+            System.out.println("===============================");
+            System.out.println("          Manage Menu");
+            System.out.println("===============================");
+            System.out.println("1. View All Menu Items");
+            System.out.println("2. Find Item by ID");
+            System.out.println("3. Find Items by Category");
+            System.out.println("4. Change Item Price");
+            System.out.println("5. Change Item Availability");
+            System.out.println("6. Remove Menu Item");
+            System.out.println("7. Return to Main Menu");
+
+            System.out.print("\nSelect option (1 - 7): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            switch (input) {
+                case "1":
+                    viewMenu();
+                    break;
+
+                case "2":
+                    findMenuItemByID();
+                    break;
+
+                case "3":
+                    findMenuItemsByCategory();
+                    break;
+
+                case "4":
+                    changeMenuItemPrice();
+                    break;
+
+                case "5":
+                    changeMenuItemAvailability();
+                    break;
+
+                case "6":
+                    removeMenuItem();
+                    break;
+
+                case "7":
+                    managing = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option! Please choose 1 - 7");
+            }
+        }
     }
 
-    // TODO: manageInventory()
-    private static void manageInventory() {
-        System.out.println("Manage Inventory");
+    // manageMenu() helpers
+    private static void findMenuItemByID() {
+        System.out.print("\nEnter Menu Item ID: ");
+        String input = scanner.nextLine().trim();
+
+        if (input.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
+
+        try {
+            int itemID = Integer.parseInt(input);
+
+            MenuItem item = myCafe.getMenu().findItemByID(itemID);
+
+            if (item == null) {
+                System.out.println("Menu Item #" + itemID + " not found!");
+                return;
+            }
+
+            System.out.println();
+            System.out.println("ID: " + item.getItemID());
+            System.out.println("Name: " + item.getName());
+            System.out.println("Category: " + item.getCategory());
+
+            System.out.printf("Price: $%.2f\n", item.calcPrice());
+
+            System.out.println("Available: " + (item.getInStock() ? "Yes" : "No"));
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid Menu Item ID!");
+        }
     }
+
+    private static void findMenuItemsByCategory() {
+        System.out.println();
+        System.out.println("1. Food");
+        System.out.println("2. Drink");
+
+        System.out.print("\nChoose category: ");
+        String input = scanner.nextLine().trim();
+
+        String category;
+
+        switch (input) {
+            case "1":
+                category = "Food";
+                break;
+
+            case "2":
+                category = "Drink";
+                break;
+
+            default:
+                System.out.println("Invalid category!");
+                return;
+        }
+
+        ArrayList<MenuItem> items = myCafe.getMenu().findItemByCategory(category);
+
+        System.out.println();
+        System.out.println(category + " Items:");
+
+        for (MenuItem item : items) {
+            System.out.printf("%d - %-30s $%.2f\n", item.getItemID(), item.getName(), item.calcPrice());
+        }
+    }
+
+    private static void changeMenuItemPrice() {
+        System.out.print("\nEnter Menu Item ID: ");
+        String idInput = scanner.nextLine().trim();
+
+        try {
+            int itemID = Integer.parseInt(idInput);
+
+            MenuItem item = myCafe.getMenu().findItemByID(itemID);
+
+            if (item == null) {
+                System.out.println("Menu item not found!");
+                return;
+            }
+
+            System.out.printf("Current Price: $%.2f%n", item.getPrice());
+
+            System.out.print("Enter New Price: $");
+            double newPrice = Double.parseDouble(scanner.nextLine().trim());
+
+            item.setPrice(newPrice);
+
+            System.out.printf("%s price changed to $%.2f%n", item.getName(), item.getPrice());
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid numeric value!");
+        }
+    }
+
+    private static void changeMenuItemAvailability() {
+        System.out.print("\nEnter Menu Item ID: ");
+
+        try {
+            int itemID = Integer.parseInt(scanner.nextLine().trim());
+
+            MenuItem item = myCafe.getMenu().findItemByID(itemID);
+
+            if (item == null) {
+                System.out.println("Menu item not found!");
+                return;
+            }
+
+            System.out.println();
+            System.out.println("1. Available");
+            System.out.println("2. Unavailable");
+
+            System.out.print("Select status: ");
+            String input = scanner.nextLine().trim();
+
+            switch (input) {
+                case "1":
+                    item.setInStock(true);
+                    break;
+
+                case "2":
+                    item.setInStock(false);
+                    break;
+
+                default:
+                    System.out.println("Invalid status!");
+                    return;
+            }
+
+            System.out.println(item.getName() + " is now " + (item.getInStock() ? "available." : "unavailable."));
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid Menu Item ID!");
+        }
+    }
+
+    private static void removeMenuItem() {
+        viewMenu();
+
+        System.out.print("\nEnter Menu Item ID to remove: ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int itemID = Integer.parseInt(input);
+
+            MenuItem item = myCafe.getMenu().findItemByID(itemID);
+
+            if (item == null) {
+                System.out.println("Menu item not found!");
+                return;
+            }
+
+            myCafe.getMenu().removeItem(item);
+
+            System.out.println(item.getName() + " removed from menu.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid Menu Item ID!");
+        }
+    }
+
+    // -------------------------------------------------//
+
+    // DONE: manageInventory()
+    private static void manageInventory() {
+        boolean managing = true;
+
+        while (managing) {
+            System.out.println();
+            System.out.println("===============================");
+            System.out.println("       Manage Inventory");
+            System.out.println("===============================");
+            System.out.println("1. View All Ingredients");
+            System.out.println("2. View Low Stock");
+            System.out.println("3. View Out of Stock");
+            System.out.println("4. Restock Ingredient");
+            System.out.println("5. Add Ingredient");
+            System.out.println("6. Remove Ingredient");
+            System.out.println("7. Return to Main Menu");
+
+            System.out.print("\nSelect option (1 - 7): ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            switch (input) {
+                case "1":
+                    viewAllIngredients();
+                    break;
+
+                case "2":
+                    viewLowStock();
+                    break;
+
+                case "3":
+                    viewOutOfStock();
+                    break;
+
+                case "4":
+                    restockIngredient();
+                    break;
+
+                case "5":
+                    addInventoryIngredient();
+                    break;
+
+                case "6":
+                    removeInventoryIngredient();
+                    break;
+
+                case "7":
+                    managing = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option! Please choose 1 - 7");
+            }
+        }
+    }
+
+    // manageInventory() helpers
+    private static void viewAllIngredients() {
+        ArrayList<Ingredient> ingredients = myCafe.getInventory().getIngredients();
+
+        System.out.println();
+        System.out.println("==================================================");
+        System.out.println("                  Inventory");
+        System.out.println("==================================================");
+        System.out.printf("%-5s %-25s %-10s %-10s\n", "ID", "Ingredient", "Qty", "Min Stock");
+
+        System.out.println("--------------------------------------------------");
+
+        for (Ingredient ingredient : ingredients) {
+            System.out.printf("%-5d %-25s %-10d %-10d\n", ingredient.getIngredientID(), ingredient.getName(),
+                    ingredient.getQty(), ingredient.getMinStock());
+        }
+        System.out.println("==================================================");
+    }
+
+    private static void viewLowStock() {
+        ArrayList<Ingredient> lowStock = myCafe.getInventory().findLowInStock();
+
+        if (lowStock.isEmpty()) {
+            System.out.println("\nNo low stock ingredients.");
+            return;
+        }
+
+        System.out.println("\nLow Stock Ingredients:");
+
+        for (Ingredient ingredient : lowStock) {
+            System.out.println(ingredient.getName() + " | Qty: " + ingredient.getQty() + " | Minimum: "
+                    + ingredient.getMinStock());
+        }
+    }
+
+    private static void viewOutOfStock() {
+        ArrayList<Ingredient> outOfStock = myCafe.getInventory().findOutOfStock();
+
+        if (outOfStock.isEmpty()) {
+            System.out.println("\nNo ingredients are out of stock.");
+            return;
+        }
+
+        System.out.println("\nOut of Stock:");
+
+        for (Ingredient ingredient : outOfStock) {
+            System.out.println(ingredient.getIngredientID() + " - " + ingredient.getName());
+        }
+    }
+
+    private static void restockIngredient() {
+        viewAllIngredients();
+
+        System.out.print("\nEnter Ingredient ID to restock: ");
+        String idInput = scanner.nextLine().trim();
+
+        if (idInput.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
+
+        try {
+            int ingredientID = Integer.parseInt(idInput);
+
+            Ingredient selectedIngredient = null;
+
+            for (Ingredient ingredient : myCafe.getInventory().getIngredients()) {
+
+                if (ingredient.getIngredientID() == ingredientID) {
+                    selectedIngredient = ingredient;
+                    break;
+                }
+            }
+
+            if (selectedIngredient == null) {
+                System.out.println("Ingredient ID " + ingredientID + " not found!");
+                return;
+            }
+
+            System.out.print("Enter quantity to add: ");
+            String qtyInput = scanner.nextLine().trim();
+
+            if (qtyInput.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            int qty = Integer.parseInt(qtyInput);
+
+            if (qty <= 0) {
+                System.out.println("Restock quantity must be positive!");
+                return;
+            }
+
+            myCafe.getInventory().restock(selectedIngredient.getName(), qty);
+
+            System.out.println(selectedIngredient.getName() + " restocked by " + qty + ".");
+
+            System.out.println("New quantity: " + selectedIngredient.getQty());
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number!");
+        }
+    }
+
+    private static void addInventoryIngredient() {
+        try {
+            System.out.print("\nEnter Ingredient ID: ");
+            String idInput = scanner.nextLine().trim();
+
+            if (idInput.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            int ingredientID = Integer.parseInt(idInput);
+
+            // Check duplicate ID
+            for (Ingredient ingredient : myCafe.getInventory().getIngredients()) {
+
+                if (ingredient.getIngredientID() == ingredientID) {
+                    System.out.println("Ingredient ID already exists!");
+                    return;
+                }
+            }
+
+            System.out.print("Enter Ingredient Name: ");
+            String name = scanner.nextLine().trim();
+
+            if (name.equalsIgnoreCase("EXIT")) {
+                System.out.println("Program exited...");
+                System.exit(0);
+            }
+
+            if (name.isBlank()) {
+                System.out.println("Ingredient name cannot be empty!");
+                return;
+            }
+
+            // Check duplicate name
+            for (Ingredient ingredient : myCafe.getInventory().getIngredients()) {
+
+                if (ingredient.getName().equalsIgnoreCase(name)) {
+                    System.out.println("Ingredient already exists!");
+                    return;
+                }
+            }
+
+            System.out.print("Enter Starting Quantity: ");
+            int qty = Integer.parseInt(scanner.nextLine().trim());
+
+            System.out.print("Enter Minimum Stock: ");
+            int minStock = Integer.parseInt(scanner.nextLine().trim());
+
+            System.out.print("Enter Customization Price: $");
+
+            double customizationPrice = Double.parseDouble(scanner.nextLine().trim());
+
+            if (qty < 0 || minStock < 0 || customizationPrice < 0) {
+                System.out.println("Values cannot be negative!");
+                return;
+            }
+
+            Ingredient newIngredient = new Ingredient(ingredientID, name, qty, minStock, customizationPrice);
+
+            myCafe.getInventory().addIngredient(newIngredient);
+
+            System.out.println(name + " added to inventory.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid numeric value!");
+        }
+    }
+
+    private static void removeInventoryIngredient() {
+        viewAllIngredients();
+
+        System.out.print(
+                "\nEnter Ingredient ID to remove: ");
+
+        String input = scanner.nextLine().trim();
+
+        if (input.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
+
+        try {
+            int ingredientID = Integer.parseInt(input);
+
+            Ingredient selectedIngredient = null;
+
+            for (Ingredient ingredient : myCafe.getInventory().getIngredients()) {
+
+                if (ingredient.getIngredientID() == ingredientID) {
+                    selectedIngredient = ingredient;
+                    break;
+                }
+            }
+
+            if (selectedIngredient == null) {
+                System.out.println("Ingredient ID " + ingredientID + " not found!");
+                return;
+            }
+
+            myCafe.getInventory().removeIngredient(selectedIngredient);
+
+            System.out.println(selectedIngredient.getName() + " removed from inventory.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid Ingredient ID!");
+        }
+    }
+
+    // -------------------------------------------------//
 
     // TODO: cafeSummary()
     private static void cafeSummary() {
-        System.out.println("Cafe Summary");
+        ArrayList<MenuItem> menuItems = myCafe.getMenu().getMenuItems();
+
+        ArrayList<Order> orders = myCafe.getOrders();
+
+        ArrayList<Ingredient> ingredients = myCafe.getInventory().getIngredients();
+
+        int foodCount = 0;
+        int drinkCount = 0;
+
+        int completedOrders = 0;
+        int cancelledOrders = 0;
+        int activeOrders = 0;
+
+        double totalRevenue = 0.0;
+
+        // Count Food and Drink items
+        for (MenuItem item : menuItems) {
+            if (item instanceof Food) {
+                foodCount++;
+            } else if (item instanceof Drink) {
+                drinkCount++;
+            }
+        }
+
+        // Calculate order statistics
+        for (Order order : orders) {
+            if (order.getStatus().equalsIgnoreCase("Completed")) {
+                completedOrders++;
+
+                // Only count completed orders as revenue
+                totalRevenue += order.calcTotal();
+
+            } else if (order.getStatus().equalsIgnoreCase("Cancelled")) {
+                cancelledOrders++;
+
+            } else {
+                activeOrders++;
+            }
+        }
+
+        int lowStockCount = myCafe.getInventory().findLowInStock().size();
+        int outOfStockCount = myCafe.getInventory().findOutOfStock().size();
+
+        System.out.println();
+        System.out.println("================================");
+        System.out.println("        " + myCafe.getName() + " Summary");
+        System.out.println("================================");
+        System.out.println("Menu Items:          " + menuItems.size());
+        System.out.println("Food Items:          " + foodCount);
+        System.out.println("Drink Items:         " + drinkCount);
+
+        System.out.println();
+        System.out.println("Total Orders:        " + orders.size());
+        System.out.println("Completed Orders:    " + completedOrders);
+        System.out.println("Active Orders:       " + activeOrders);
+        System.out.println("Cancelled Orders:    " + cancelledOrders);
+
+        System.out.println();
+        System.out.printf("Total Revenue:       $%.2f%n", totalRevenue);
+
+        System.out.println();
+        System.out.println("Ingredient Types:    " + ingredients.size());
+        System.out.println("Low Stock Items:     " + lowStockCount);
+        System.out.println("Out of Stock Items:  " + outOfStockCount);
+
+        System.out.println("================================");
     }
 
     public static void main(String[] args) {
