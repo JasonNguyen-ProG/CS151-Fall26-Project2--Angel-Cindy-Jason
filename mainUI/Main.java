@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 import exceptions.InvalidIngredientException;
-import exceptions.InvalidNumericValueException;
+
 import management.Cafe;
 import management.Menu;
 import management.SystemConstant;
@@ -291,7 +291,7 @@ public class Main {
         throw new InvalidIngredientException(name + " was not found");
     }
 
-    // TODO: createOrder()
+    // DONE: createOrder()
     private static void createOrder() {
         int orderID = myCafe.getOrders().size() + 1;
         Order currentOrder = new Order(orderID);
@@ -443,7 +443,7 @@ public class Main {
         } catch (IllegalStateException e) {
             System.out.println("Unable to submit order: " + e.getMessage());
         }
-        
+
         return false;
     }
 

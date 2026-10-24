@@ -129,6 +129,12 @@ public class Drink extends MenuItem {
                 new ArrayList<>(this.baseIngredients), new ArrayList<>(this.toppings));
     }
 
+    @Override
+    public void consumeIngredients(Inventory inventory) {
+        inventory.consumeIngredients(this.baseIngredients);
+        inventory.consumeIngredients(this.toppings);
+    }
+
     /*-----Getters and Setters-----*/
     public String getSize() {
         return this.size;

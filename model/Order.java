@@ -104,6 +104,11 @@ public class Order implements Discountable {
                 throw new IllegalStateException(item.getName() + " cannot be served");
             }
         }
+
+        for (MenuItem item : this.items) {
+            item.consumeIngredients(inventory);
+        }
+
         this.status = "Submitted";
     }
 

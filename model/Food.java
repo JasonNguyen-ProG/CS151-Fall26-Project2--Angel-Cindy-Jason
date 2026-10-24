@@ -124,7 +124,7 @@ public class Food extends MenuItem {
             return false;
         }
 
-        return inventory.hasIngredients(currentIngredients) && inventory.hasIngredients(customizations);
+        return inventory.hasIngredients(this.currentIngredients) && inventory.hasIngredients(this.customizations);
     }
 
     /**
@@ -133,8 +133,16 @@ public class Food extends MenuItem {
      */
     @Override
     public MenuItem customerCopy() {
-        return new Food(this.getItemID(), this.getName(), this.getPrice(), this.getInStock(), this.isDiscountable(), this.getDiscountRate(),
-                this.size, this.spiceLvl, new ArrayList<>(currentIngredients), new ArrayList<>(customizations), this.specialRequest);
+        return new Food(this.getItemID(), this.getName(), this.getPrice(), this.getInStock(), this.isDiscountable(),
+                this.getDiscountRate(),
+                this.size, this.spiceLvl, new ArrayList<>(this.currentIngredients), new ArrayList<>(this.customizations),
+                this.specialRequest);
+    }
+    
+    @Override
+    public void consumeIngredients(Inventory inventory) {
+        inventory.consumeIngredients(this.currentIngredients);
+        inventory.consumeIngredients(this.customizations);
     }
 
     /*-----Getters and Setters-----*/
