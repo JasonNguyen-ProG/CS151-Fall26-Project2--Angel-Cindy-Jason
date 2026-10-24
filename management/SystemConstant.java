@@ -6,6 +6,7 @@ public class SystemConstant {
     public static final double ORDER_DISCOUNT_RATE = 0.25;
     public static final double ITEM_DISCOUNT_RATE = 0.10;
     public static final double TAX_RATE = 0.10;
+    public static final double ORDER_DISCOUNT_THRESHOLD = 50.00;
 
     private SystemConstant() {
     }

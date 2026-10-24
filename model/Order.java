@@ -57,12 +57,7 @@ public class Order implements Discountable {
     // Interface methods
     @Override
     public boolean isDiscountable() {
-        for (MenuItem item : this.items) {
-            if (item.isDiscountable()) {
-                return true;
-            }
-        }
-        return false;
+        return this.calcSubtotal() >= SystemConstant.ORDER_DISCOUNT_THRESHOLD;
     }
 
     @Override
@@ -120,8 +115,8 @@ public class Order implements Discountable {
         if (!status.equalsIgnoreCase("Submitted") && !status.equalsIgnoreCase("Preparing")
                 && !status.equalsIgnoreCase("Ready") && !status.equalsIgnoreCase("Completed")) {
             System.out.println("Invalid status");
+        } else {
+            this.status = status;
         }
-
-        this.status = status;
     }
 }
