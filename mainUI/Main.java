@@ -1814,7 +1814,7 @@ public class Main {
 
     // -------------------------------------------------//
 
-    // TODO: cafeSummary()
+    // DONE: cafeSummary()
     private static void cafeSummary() {
         ArrayList<MenuItem> menuItems = myCafe.getMenu().getMenuItems();
 
