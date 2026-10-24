@@ -693,14 +693,219 @@ public class Main {
                 System.out.println("Invalid topping!");
                 return;
         }
-        
+
         currDrink.addTopping(topping);
 
         System.out.println(topping.getName() + " added");
         System.out.printf("New Price: $%.2f\n", currDrink.calcPrice());
     }
 
+    private static void removeDrinkTopping(Drink currDrink) {
+        ArrayList<Ingredient> currToppings = currDrink.getToppings();
+
+        if (currToppings.isEmpty()) {
+            System.out.println("This drink has no toppings!");
+            return;
+        }
+
+        System.out.println("\nCurrent Toppings: ");
+        for (int i = 0; i < currToppings.size(); i++) {
+            System.out.println((i + 1) + ". " + currToppings.get(i).getName());
+        }
+
+        System.out.print("\nChoose topping to remove: ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int choice = Integer.parseInt(input);
+            if (choice < 1 || choice > currToppings.size()) {
+                System.out.println("Invalid topping!");
+                return;
+            }
+
+            Ingredient topping = currToppings.get(choice - 1);
+            currDrink.removeTopping(topping);
+
+            System.out.println(topping.getName() + "removed...");
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number!");
+        }
+    }
+
     // customizeFood() helpers
+    private static void addExtraIngredient(Food currFood) {
+        System.out.println();
+        System.out.println("Available Extra Ingredients:");
+        System.out.println("1. Egg (+$1.25)");
+        System.out.println("2. Cheddar Cheese (+$0.75)");
+        System.out.println("3. Bacon (+$1.50)");
+        System.out.println("4. Chicken (+$2.00)");
+        System.out.println("5. Mozzarella (+$0.75)");
+        System.out.println("6. Tomato (+$0.50)");
+        System.out.println("7. Avocado (+$1.50)");
+
+        System.out.print("\nChoose extra ingredient: ");
+        String input = scanner.nextLine().trim();
+
+        Ingredient extra;
+
+        switch (input) {
+            case "1":
+                extra = findIngredientByName(myCafe.getInventory().getIngredients(), "Egg");
+                break;
+
+            case "2":
+                extra = findIngredientByName(myCafe.getInventory().getIngredients(), "Cheddar Cheese");
+                break;
+
+            case "3":
+                extra = findIngredientByName(myCafe.getInventory().getIngredients(), "Bacon");
+                break;
+
+            case "4":
+                extra = findIngredientByName(myCafe.getInventory().getIngredients(), "Chicken");
+                break;
+
+            case "5":
+                extra = findIngredientByName(myCafe.getInventory().getIngredients(), "Mozzarella");
+                break;
+
+            case "6":
+                extra = findIngredientByName(myCafe.getInventory().getIngredients(), "Tomato");
+                break;
+
+            case "7":
+                extra = findIngredientByName(myCafe.getInventory().getIngredients(), "Avocado");
+                break;
+
+            default:
+                System.out.println("Invalid ingredient!");
+                return;
+        }
+        
+        currFood.addExtraIngredient(extra);
+        System.out.println(extra.getName() + " added...");
+
+        System.out.printf("New Price: $%.2f\n", currFood.calcPrice());
+    }
+
+    private static void removeIngredient(Food currFood) {
+        ArrayList<Ingredient> currIngredients = currFood.getCurrentIngredients();
+
+        if (currIngredients.isEmpty()) {
+            System.out.println("No ingredients to remove");
+            return;
+        }
+
+        System.out.println("\nCurrent Ingredients: ");
+        for (int i = 0; i < currIngredients.size(); i++) {
+            System.out.println((i + 1) + ". " + currIngredients.get(i).getName());
+        }
+
+        System.out.print("\nChoose ingredient to remove: ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int choice = Integer.parseInt(input);
+
+            if (choice < 1 || choice > currIngredients.size()) {
+                System.out.println("Invalid ingredient!");
+                return;
+            }
+
+            Ingredient ingredient = currIngredients.get(choice - 1);
+
+            currFood.removeIngredient(ingredient);
+            System.out.println(ingredient.getName() + " removed...");
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number!");
+        }
+    }
+
+    private static void substituteIngredient(Food currFood) {
+        ArrayList<Ingredient> currIngredients = currFood.getCurrentIngredients();
+
+        if (currIngredients.isEmpty()) {
+            System.out.println("No ingredients to substitute");
+            return;
+        }
+
+        System.out.println("\nCurrent Ingredients: ");
+        for (int i = 0; i < currIngredients.size(); i++) {
+            System.out.println((i + 1) + ". " + currIngredients.get(i).getName());
+        }
+
+        System.out.print("\nChoose ingredient to substitute");
+        String input = scanner.nextLine().trim();
+
+        try {
+            int choice = Integer.parseInt(input);
+
+            if (choice < 1 || choice > currIngredients.size()) {
+                System.out.println("Invalid ingredient!");
+                return;
+            }
+
+            Ingredient original = currIngredients.get(choice - 1);
+
+            System.out.println();
+            System.out.println("Replacement Ingredients:");
+            System.out.println("1. Egg");
+            System.out.println("2. Cheddar Cheese");
+            System.out.println("3. Bacon");
+            System.out.println("4. Chicken");
+            System.out.println("5. Mozzarella");
+            System.out.println("6. Tomato");
+            System.out.println("7. Avocado");
+
+            System.out.print("\nChoose substitution: ");
+            String replacementInput = scanner.nextLine().trim();
+
+            Ingredient substitution;
+
+            switch (replacementInput) {
+                case "1":
+                    substitution = findIngredientByName(myCafe.getInventory().getIngredients(), "Egg");
+                    break;
+
+                case "2":
+                    substitution = findIngredientByName(myCafe.getInventory().getIngredients(), "Cheddar Cheese");
+                    break;
+
+                case "3":
+                    substitution = findIngredientByName(myCafe.getInventory().getIngredients(), "Bacon");
+                    break;
+
+                case "4":
+                    substitution = findIngredientByName(myCafe.getInventory().getIngredients(), "Chicken");
+                    break;
+
+                case "5":
+                    substitution = findIngredientByName(myCafe.getInventory().getIngredients(), "Mozzarella");
+                    break;
+
+                case "6":
+                    substitution = findIngredientByName(myCafe.getInventory().getIngredients(), "Tomato");
+                    break;
+
+                case "7":
+                    substitution = findIngredientByName(myCafe.getInventory().getIngredients(), "Avocado");
+                    break;
+
+                default:
+                    System.out.println("Invalid substitution!");
+                    return;
+            }
+            
+            currFood.substituteIngredient(original, substitution);
+
+            System.out.println(original.getName() + " replaced with " + substitution.getName());
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number!");
+        }
+    }
+
     private static void changeSpiceLvl(Food currFood) {
         System.out.println();
         System.out.println("1. None");
