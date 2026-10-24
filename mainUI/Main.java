@@ -529,8 +529,71 @@ public class Main {
                 System.out.println("Invalid sweetness level!");
                 return;
         }
-        
+
         System.out.println("Sweetness level changed to " + (int) (currDrink.getSweetnessLvl() * 100) + "%");
+    }
+
+    private static void changeIceLvl(Drink currDrink) {
+        System.out.println();
+        System.out.println("1. 0%");
+        System.out.println("2. 25%");
+        System.out.println("3. 50%");
+        System.out.println("4. 75%");
+        System.out.println("5. 100%");
+
+        System.out.print("\nChoose ice level: ");
+        String input = scanner.nextLine().trim();
+
+        switch (input) {
+            case "1":
+                currDrink.setIceLvl(0.0);
+                break;
+
+            case "2":
+                currDrink.setIceLvl(0.25);
+                break;
+
+            case "3":
+                currDrink.setIceLvl(0.50);
+                break;
+
+            case "4":
+                currDrink.setIceLvl(0.75);
+                break;
+
+            case "5":
+                currDrink.setIceLvl(1.0);
+                break;
+
+            default:
+                System.out.println("Invalid ice level!");
+                return;
+        }
+
+        System.out.println("Ice level changed to " + (int) (currDrink.getIceLvl() * 100) + "%");
+    }
+
+    private static void changeDrinkTemperature(Drink currDrink) {
+        System.out.println();
+        System.out.println("1. Hot");
+        System.out.println("2. Cold");
+
+        System.out.print("\nChoose temperature: ");
+        String input = scanner.nextLine().trim();
+
+        switch (input) {
+            case "1":
+                currDrink.setTemperature("Hot");
+                break;
+
+            case "2":
+                currDrink.setTemperature("Cold");
+                break;
+        
+            default:
+                System.out.println("Invalid temperature!");
+                return;
+        }
     }
 
     private static void viewCurrentOrder(Order order) {
