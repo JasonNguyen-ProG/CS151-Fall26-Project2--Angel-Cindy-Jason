@@ -14,6 +14,7 @@ import model.Order;
 import model.Food;
 import model.Drink;
 import model.Ingredient;
+import model.MenuItem;
 
 public class Main {
 
@@ -180,6 +181,7 @@ public class Main {
         menu.addItem(chickenTeriyaki);
         menu.addItem(butterCroissant);
         menu.addItem(chocolateChipCookie);
+        menu.addItem(blueberryMuffin);
     }
 
     private static void initializeDrinks(Menu menu, ArrayList<Ingredient> ingredientsList) {
@@ -289,10 +291,50 @@ public class Main {
         throw new InvalidIngredientException(name + " was not found");
     }
 
+    // TODO: createOrder()
     private static void createOrder() {
-        System.out.println("Create Order");
+        System.out.println();
+        System.out.println("===============================");
+        System.out.println("         Create Order");
+        System.out.println("===============================");
+
+        myCafe.getMenu().displayAvailableItems();
+
+        System.out.print("\nEnter Item ID: ");
+        String input = scanner.nextLine().trim();
+
+        if (input.equalsIgnoreCase("EXIT")) {
+            System.out.println("Program exited...");
+            System.exit(0);
+        }
+
+        try {
+            int itemID = Integer.parseInt(input);
+
+            MenuItem menuItem = myCafe.getMenu().findItemByID(itemID);
+
+            if (menuItem == null) {
+                System.out.println("No item with ID: " + itemID);
+                return;
+            }
+
+            System.out.println();
+            System.out.println("Selected: " + menuItem.getName());
+            System.out.printf("Price: $%.2f\n", menuItem.calcPrice());
+
+            if (!menuItem.canServe(myCafe.getInventory())) {
+                System.out.println("Sorry, item out of stock...");
+                return;
+            }
+
+            MenuItem selectedItem = menuItem.customerCopy();
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid Item ID. Please re-enter!");
+        }
     }
 
+    // TODO: manageOrder()
     private static void manageOrder() {
         System.out.println("Manage Order");
     }
@@ -309,14 +351,17 @@ public class Main {
         System.out.println();
     }
 
+    // TODO: manageMenu()
     private static void manageMenu() {
         System.out.println("Manage Menu");
     }
 
+    // TODO: manageInventory()
     private static void manageInventory() {
         System.out.println("Manage Inventory");
     }
 
+    // TODO: cafeSummary()
     private static void cafeSummary() {
         System.out.println("Cafe Summary");
     }

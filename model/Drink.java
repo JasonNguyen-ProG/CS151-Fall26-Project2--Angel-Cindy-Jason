@@ -118,6 +118,17 @@ public class Drink extends MenuItem {
         return inventory.hasIngredients(baseIngredients) && inventory.hasIngredients(toppings);
     }
 
+    /**    
+     * 
+     * @return customer copy of Drink
+     */
+    @Override
+    public MenuItem customerCopy() {
+        return new Drink(this.getItemID(), this.getName(), this.getPrice(), this.getInStock(), this.isDiscountable(),
+                this.getDiscountRate(), this.size, this.sweetnessLvl, this.iceLvl, this.temperature,
+                new ArrayList<>(this.baseIngredients), new ArrayList<>(this.toppings));
+    }
+
     /*-----Getters and Setters-----*/
     public String getSize() {
         return this.size;
@@ -145,5 +156,13 @@ public class Drink extends MenuItem {
 
     public void setTemperature(String newTemp) {
         this.temperature = newTemp;
+    }
+
+    public ArrayList<Ingredient> getBaseIngredients() {
+        return this.baseIngredients;
+    }
+
+    public ArrayList<Ingredient> getToppings() {
+        return this.toppings;
     }
 }
