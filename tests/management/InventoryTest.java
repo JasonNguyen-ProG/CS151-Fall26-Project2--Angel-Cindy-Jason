@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import exceptions.InvalidIngredientException;
+import exceptions.InventoryException;
 import exceptions.MaximumInstanceException;
 import java.lang.reflect.Field;
 import model.Ingredient;
@@ -24,10 +25,6 @@ public class InventoryTest {
     // run before to create sample ingredients and inventory
     @BeforeClass
     public static void createFixture() {
-        // Reset the instance count for ingredients and inventory to ensure a clean test environment
-        Ingredient.resetInstanceCount();
-        Inventory.resetInstanceCount();
-
         // Create sample ingredients
         coffee = new Ingredient(1, "Coffee", 5, 1, 0.50);
         milk = new Ingredient(2, "Milk", 3, 2, 0.25);
@@ -67,7 +64,7 @@ public class InventoryTest {
     }
 
     // Checks that adding an ingredient succeeds when there is room in the inventory
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = InventoryException.class)
     public void addIngredientThrowsWhenInventoryIsFull() {
         inventory.addIngredient(tea);
     }
@@ -82,7 +79,7 @@ public class InventoryTest {
     }
 
     // Checks that removing an ingredient throws an exception when the ingredient is not in the inventory
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = InventoryException.class)
     public void removeIngredientThrowsWhenIngredientIsMissing() {
         inventory.removeIngredient(tea);
     }
@@ -96,7 +93,7 @@ public class InventoryTest {
     }
 
     // Checks that restocking an ingredient throws an exception when the ingredient is not found
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = InventoryException.class)
     public void restockThrowsWhenIngredientNameIsMissing() {
         inventory.restock("Tea", 2);
     }
