@@ -41,13 +41,13 @@ public class OrderTest {
     @Test
     public void testDiscountAndCancelOrder() {
         Order order = new Order(3);
-        Food bread = new Food(1, "Bread", 10.0, true, true, SystemConstant.ITEM_DISCOUNT_RATE,
+        Food bread = new Food(1, "Bread", 60.0, true, true, SystemConstant.ITEM_DISCOUNT_RATE,
                 "Small", "None", new ArrayList<>(), new ArrayList<>(), "");
         order.addItem(bread);
 
         assertTrue(order.isDiscountable());
-        assertEquals(2.25, order.calcDiscount(), 0.001);
-        assertEquals(6.75, order.calcPriceAfterDiscount(), 0.001);
+        assertEquals(13.5, order.calcDiscount(), 0.001);
+        assertEquals(40.5, order.calcPriceAfterDiscount(), 0.001);
 
         order.cancelOrder();
         assertEquals("Cancelled", order.getStatus());

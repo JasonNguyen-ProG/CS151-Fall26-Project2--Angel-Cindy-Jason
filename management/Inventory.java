@@ -42,12 +42,20 @@ public class Inventory {
     }
 
     public void setCapacity(int capacity) {
+        if (capacity < 0 || capacity > SystemConstant.MAXIMUM_INGREDIENT_TYPES) {
+            throw new InventoryException("Capacity must be between 0 and " + SystemConstant.MAXIMUM_INGREDIENT_TYPES);
+        }
+
+        if (capacity < ingredients.size()) {
+            throw new InventoryException("Capacity cannot be smaller than current inventory size.");
+        }
+
         this.capacity = capacity;
     }
 
     // Getter and setter methods for ingredients and capacity.
     public ArrayList<Ingredient> getIngredients() {
-        return this.ingredients;
+        return new ArrayList<>(this.ingredients);
     }
 
     public void setIngredients(ArrayList<Ingredient> ingredients) {
@@ -58,11 +66,19 @@ public class Inventory {
 
     // Method for adding an ingredient to the inventory.
     public void addIngredient(Ingredient ingredient) {
-        if (this.ingredients.size() < SystemConstant.MAXIMUM_INGREDIENT_TYPES) {
-            this.ingredients.add(ingredient);
-        } else {
+        if (ingredient == null) {
+            throw new InventoryException("Ingredient cannot be null.");
+        }
+
+        if (ingredients.contains(ingredient)) {
+            throw new InventoryException("Ingredient already exists in inventory.");
+        }
+
+        if (ingredients.size() >= this.capacity) {
             throw new InventoryException("Inventory is full. Cannot add more ingredients.");
         }
+
+        ingredients.add(ingredient);
     }
 
     // Method for removing an ingredient from the inventory.
@@ -76,6 +92,10 @@ public class Inventory {
 
     // Method for restocking an ingredient in the inventory.
     public void restock(String name, int qty) {
+        if (qty <= 0) {
+            throw new IllegalArgumentException("Restock quantity must be positive.");
+        }
+
         for (Ingredient ingredient : this.ingredients) {
             if (ingredient.getName().equals(name)) {
                 ingredient.restock(qty);
@@ -109,9 +129,18 @@ public class Inventory {
             int idx = ingredients.indexOf(ing);
 
             if (idx == -1) {
-                throw new InvalidIngredientException(
-                        ing.getName() + " not found");
+                throw new InvalidIngredientException(ing.getName() + " not found");
             }
+
+            Ingredient inventoryIngredient = ingredients.get(idx);
+
+            if (!inventoryIngredient.hasEnoughStock(DEFAULT_REQUIRED_QTY)) {
+                throw new InvalidIngredientException(ing.getName() + " is out of stock");
+            }
+        }
+        
+        for (Ingredient ing : menuItemIngredients) {
+            int idx = ingredients.indexOf(ing);
 
             Ingredient inventoryIngredient = ingredients.get(idx);
 

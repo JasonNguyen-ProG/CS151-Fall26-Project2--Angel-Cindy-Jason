@@ -176,7 +176,7 @@ public class InventoryTest {
     }
 
     // Checks that addIngredient throws an exception when the ingredient is already present
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = InventoryException.class)
     public void addIngredientThrowsWhenIngredientIsAlreadyPresent() {
         inventory.setCapacity(4);
 
@@ -184,7 +184,7 @@ public class InventoryTest {
     }
 
     // Checks that addIngredient throws an exception when the ingredient is null
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = InventoryException.class)
     public void addIngredientThrowsWhenIngredientIsNull() {
         inventory.addIngredient(null);
     }
