@@ -31,6 +31,8 @@ public abstract class MenuItem implements Discountable{
 
     public abstract MenuItem customerCopy();
 
+    public abstract void consumeIngredients(Inventory inventory);
+
     /*-----Interface Methods-----*/
     @Override 
     public boolean isDiscountable() {

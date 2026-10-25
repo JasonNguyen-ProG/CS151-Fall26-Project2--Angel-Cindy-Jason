@@ -2,6 +2,8 @@ package management;
 
 import exceptions.InvalidIngredientException;
 import exceptions.MaximumInstanceException;
+import exceptions.InventoryException;
+
 import java.util.ArrayList;
 import model.Ingredient;
 
@@ -35,11 +37,6 @@ public class Inventory {
         instanceCount++;
     }
 
-    // Static method to reset the instance count of Inventory objects.
-    static void resetInstanceCount() {
-        instanceCount = 0;
-    }
-
     public int getCapacity() {
         return this.capacity;
     }
@@ -64,7 +61,7 @@ public class Inventory {
         if (this.ingredients.size() < SystemConstant.MAXIMUM_INGREDIENT_TYPES) {
             this.ingredients.add(ingredient);
         } else {
-            throw new IllegalStateException("Inventory is full. Cannot add more ingredients.");
+            throw new InventoryException("Inventory is full. Cannot add more ingredients.");
         }
     }
 
@@ -73,7 +70,7 @@ public class Inventory {
         if (this.ingredients.contains(ingredient)) {
             this.ingredients.remove(ingredient);
         } else {
-            throw new IllegalArgumentException("Ingredient not found in inventory.");
+            throw new InventoryException("Ingredient not found in inventory.");
         }
     }
 
@@ -85,7 +82,7 @@ public class Inventory {
                 return;
             }
         }
-        throw new IllegalArgumentException("Ingredient not found in inventory.");
+        throw new InventoryException("Ingredient not found in inventory.");
     }
 
     // Method to check if the inventory has all ingredients for a given menu item.

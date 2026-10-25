@@ -57,12 +57,7 @@ public class Order implements Discountable {
     // Interface methods
     @Override
     public boolean isDiscountable() {
-        for (MenuItem item : this.items) {
-            if (item.isDiscountable()) {
-                return true;
-            }
-        }
-        return false;
+        return this.calcSubtotal() >= SystemConstant.ORDER_DISCOUNT_THRESHOLD;
     }
 
     @Override
@@ -104,6 +99,11 @@ public class Order implements Discountable {
                 throw new IllegalStateException(item.getName() + " cannot be served");
             }
         }
+
+        for (MenuItem item : this.items) {
+            item.consumeIngredients(inventory);
+        }
+
         this.status = "Submitted";
     }
 
@@ -112,6 +112,11 @@ public class Order implements Discountable {
     }
 
     public void updateStatus(String status) {
-        this.status = status;
+        if (!status.equalsIgnoreCase("Submitted") && !status.equalsIgnoreCase("Preparing")
+                && !status.equalsIgnoreCase("Ready") && !status.equalsIgnoreCase("Completed")) {
+            System.out.println("Invalid status");
+        } else {
+            this.status = status;
+        }
     }
 }
