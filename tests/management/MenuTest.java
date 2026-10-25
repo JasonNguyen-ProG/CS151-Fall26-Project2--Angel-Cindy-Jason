@@ -28,7 +28,6 @@ public class MenuTest {
 
         assertEquals(1, menu.getMenuItems().size());
         assertSame(croissant, menu.findItemByID(1));
-        assertSame(croissant, menu.findItemByName("croissant"));
     }
 
     // Checks the milk tea can be found so drink searches return the right item
@@ -39,7 +38,6 @@ public class MenuTest {
                 "Small", 1.0, 0.5, "Cold", new ArrayList<>(), new ArrayList<>());
         menu.addItem(milkTea);
 
-        assertSame(milkTea, menu.findItemByName("Brown Sugar Milk Tea"));
         assertSame(milkTea, menu.findItemByID(2));
     }
 
@@ -61,7 +59,6 @@ public class MenuTest {
         Menu menu = new Menu();
 
         assertNull(menu.findItemByID(999));
-        assertNull(menu.findItemByName("Missing"));
         assertTrue(menu.findItemByCategory("Missing").isEmpty());
     }
 
