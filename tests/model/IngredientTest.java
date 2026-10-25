@@ -6,8 +6,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+import exceptions.MaximumInstanceException;
+import management.SystemConstant;
 import exceptions.InvalidNumericValueException;
 import model.Ingredient;
+
 
 public class IngredientTest {
     private static Ingredient ingredient;
@@ -130,5 +134,27 @@ public class IngredientTest {
         ingredient.setQty(1);
 
         assertFalse(ingredient.isOutOfStock());
+    }
+
+    // Checks that the Ingredient limit is enforced and restores the counter afterward.
+    @Test
+    public void testMaximumInstances() throws Exception {
+        Field counter = Ingredient.class.getDeclaredField("instanceCount");
+        counter.setAccessible(true);
+
+        int originalCount = counter.getInt(null);
+        counter.setInt(null, 0);
+
+        try {
+            for (int i = 0; i < SystemConstant.MAXIMUM_INSTANCES; i++) {
+                new Ingredient(i, "Test Ingredient", 1, 0, 0.50);
+            }
+
+            assertThrows(
+                    MaximumInstanceException.class,
+                    () -> new Ingredient(999, "Extra Ingredient", 1, 0, 0.50));
+        } finally {
+            counter.setInt(null, originalCount);
+        }
     }
 }

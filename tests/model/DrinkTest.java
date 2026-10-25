@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+import exceptions.MaximumInstanceException;
+import management.SystemConstant;
 import exceptions.InvalidIngredientException;
 import exceptions.InvalidNumericValueException;
 import management.Inventory;
@@ -197,5 +200,51 @@ public class DrinkTest {
         assertEquals(drink.getToppings(), copy.getToppings());
         assertNotSame(drink.getBaseIngredients(), copy.getBaseIngredients());
         assertNotSame(drink.getToppings(), copy.getToppings());
+    }
+
+// Checks that the Drink limit is enforced and restores the counter afterward.
+@Test
+public void testMaximumInstances() throws Exception {
+    Field counter = Drink.class.getDeclaredField("instanceCount");
+    counter.setAccessible(true);
+
+    int originalCount = counter.getInt(null);
+    counter.setInt(null, 0);
+
+    try {
+        for (int i = 0; i < SystemConstant.MAXIMUM_INSTANCES; i++) {
+            new Drink(
+                    10,
+                    "Iced Coffee",
+                    4.00,
+                    true,
+                    true,
+                    0.10,
+                    "Medium",
+                    0.50,
+                    0.50,
+                    "Cold",
+                    new ArrayList<>(Arrays.<Ingredient>asList(coffee)),
+                    new ArrayList<>(Arrays.<Ingredient>asList(boba)));
+        }
+
+        assertThrows(
+                MaximumInstanceException.class,
+                () -> new Drink(
+                        10,
+                        "Iced Coffee",
+                        4.00,
+                        true,
+                        true,
+                        0.10,
+                        "Medium",
+                        0.50,
+                        0.50,
+                        "Cold",
+                        new ArrayList<>(Arrays.<Ingredient>asList(coffee)),
+                        new ArrayList<>(Arrays.<Ingredient>asList(boba))));
+    } finally {
+        counter.setInt(null, originalCount);
+    }
     }
 }
