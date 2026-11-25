@@ -145,7 +145,22 @@ public class Inventory {
             Ingredient inventoryIngredient = ingredients.get(idx);
 
             inventoryIngredient.consume(DEFAULT_REQUIRED_QTY);
+            if (inventoryIngredient.isOutOfStock()) {
+                notifySoldOut(inventoryIngredient);
+            }
         }
+    }
+
+    // Method for telling the user an ingredient just sold out.
+    public void notifySoldOut(Ingredient ingredient) {
+        if (ingredient == null || !ingredient.isOutOfStock()) {
+            return;
+        }
+        System.out.println("SOLD OUT NOTICE:");
+        System.out.println("Name: " + ingredient.getName());
+        System.out.println("ID: " + ingredient.getIngredientID());
+        System.out.println("Quantity left: " + ingredient.getQty());
+        System.out.println("Please restock " + ingredient.getName() + ".");
     }
 
     // Methods for finding low stock ingredients.
