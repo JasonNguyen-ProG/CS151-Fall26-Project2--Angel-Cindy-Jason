@@ -15,6 +15,7 @@ import model.Food;
 import model.Drink;
 import model.Ingredient;
 import model.MenuItem;
+import model.OnlineOrder; 
 
 public class Main {
 
@@ -294,7 +295,34 @@ public class Main {
     // DONE: createOrder()
     private static void createOrder() {
         int orderID = myCafe.getOrders().size() + 1;
-        Order currentOrder = new Order(orderID);
+
+        System.out.println();
+        System.out.println("Choose order type:");
+        System.out.println("1. Regular order");
+        System.out.println("2. Online order");
+        System.out.print("Enter choice: ");
+
+        String orderType = scanner.nextLine().trim();
+        Order currentOrder;
+
+        if (orderType.equals("1")) {
+            currentOrder = new Order(orderID);
+        } else if (orderType.equals("2")) {
+            System.out.print("Enter your email: ");
+            String email = scanner.nextLine().trim();
+
+            System.out.print("Enter your delivery address: ");
+            String address = scanner.nextLine().trim();
+
+            System.out.print("Enter your payment method: ");
+            String paymentMethod = scanner.nextLine().trim();
+
+            currentOrder = new OnlineOrder(orderID, email, address, paymentMethod);
+        } else {
+            System.out.println("Invalid choice. Returning to the main menu.");
+            return;
+        }
+                
 
         boolean ordering = true;
 
