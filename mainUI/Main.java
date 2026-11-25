@@ -2,6 +2,7 @@ package mainUI;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import exceptions.InvalidIngredientException;
 
@@ -182,6 +183,15 @@ public class Main {
         menu.addItem(butterCroissant);
         menu.addItem(chocolateChipCookie);
         menu.addItem(blueberryMuffin);
+        menu.addItem(new Food(209, "Egg Cheese Muffin", 6.50, true, false, 0.0, "Regular", "None",
+                new ArrayList<>(Arrays.asList(findIngredientByName(ingredientsList, "English Muffin"),
+                        findIngredientByName(ingredientsList, "Egg"),
+                        findIngredientByName(ingredientsList, "Cheddar Cheese"))),
+                new ArrayList<>(), ""));
+        menu.addItem(new Food(210, "Bacon Croissant", 5.75, true, false, 0.0, "Individual", "None",
+                new ArrayList<>(Arrays.asList(findIngredientByName(ingredientsList, "Butter Croissant"),
+                        findIngredientByName(ingredientsList, "Bacon"))),
+                new ArrayList<>(), ""));
     }
 
     private static void initializeDrinks(Menu menu, ArrayList<Ingredient> ingredientsList) {
@@ -278,6 +288,14 @@ public class Main {
         menu.addItem(cafeLatte);
         menu.addItem(mocha);
         menu.addItem(americano);
+        menu.addItem(new Drink(111, "Iced Matcha", 5.50, true, false, 0.0, "Small", 0.75, 1.0, "Cold",
+                new ArrayList<>(Arrays.asList(findIngredientByName(ingredientsList, "Matcha"),
+                        findIngredientByName(ingredientsList, "Milk"))),
+                new ArrayList<>()));
+        menu.addItem(new Drink(112, "Chocolate Milk", 4.00, true, false, 0.0, "Small", 1.0, 0.0, "Cold",
+                new ArrayList<>(Arrays.asList(findIngredientByName(ingredientsList, "Chocolate"),
+                        findIngredientByName(ingredientsList, "Milk"))),
+                new ArrayList<>()));
     }
 
     private static Ingredient findIngredientByName(ArrayList<Ingredient> ingredientsList, String name) {
